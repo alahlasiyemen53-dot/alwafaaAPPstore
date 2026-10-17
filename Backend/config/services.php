@@ -29,13 +29,13 @@ return [
     ],
 
     'firebase_web' => [
-        'api_key' => env('FIREBASE_WEB_API_KEY', 'AIzaSyCOIjCXEnkzeAZr7DvtkHJIKMdwaQV8gyY'),
+        'api_key' => env('FIREBASE_WEB_API_KEY'),
         'auth_domain' => env('FIREBASE_WEB_AUTH_DOMAIN', 'alwafaaapp.firebaseapp.com'),
         'project_id' => env('FIREBASE_WEB_PROJECT_ID', env('FCM_PROJECT_ID', 'alwafaaapp')),
         'storage_bucket' => env('FIREBASE_WEB_STORAGE_BUCKET', 'alwafaaapp.firebasestorage.app'),
-        'messaging_sender_id' => env('FIREBASE_WEB_MESSAGING_SENDER_ID', '968310231225'),
-        // Android app id works for Auth/Firestore client init in this project when web app is absent.
-        'app_id' => env('FIREBASE_WEB_APP_ID', '1:968310231225:android:4f21b56bb39707c24a4b68'),
+        // Must match Flutter firebase_options.dart for project alwafaaapp
+        'messaging_sender_id' => env('FIREBASE_WEB_MESSAGING_SENDER_ID', '146432039506'),
+        'app_id' => env('FIREBASE_WEB_APP_ID', '1:146432039506:android:e4fb6eb3b1ab767c941d8b'),
     ],
 
     'fcm' => [
