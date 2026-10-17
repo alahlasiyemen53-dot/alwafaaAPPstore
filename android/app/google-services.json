@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "146432039506",
+    "project_id": "alwafaaapp",
+    "storage_bucket": "alwafaaapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146432039506:android:e4fb6eb3b1ab767c941d8b",
+        "android_client_info": {
+          "package_name": "com.alwafaamed.storeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChaKJx0l_DPtlX-ydYZILUl6C691fNh_g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

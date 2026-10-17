@@ -1,0 +1,8 @@
+@extends('layouts.admin')
+@php use App\Support\PermissionLabel; @endphp
+@section('title', 'الصلاحيات | لمّة')
+@section('page-title', 'الصلاحيات')
+@section('content')
+<div class="page-heading"><div><h2 class="fs-18 mb-1">دليل الصلاحيات</h2><p>الصلاحيات معرفة في النظام وتُسند من خلال الأدوار.</p></div><span class="badge bg-info-subtle text-info">للقراءة فقط</span></div>
+<div class="card"><div class="card-body border-bottom"><form method="GET" class="row g-2 filter-row"><div class="col-md-9"><label for="search" class="visually-hidden">البحث عن صلاحية</label><input class="form-control" id="search" name="search" value="{{ request('search') }}" placeholder="ابحث بالاسم البرمجي أو العربي (مثل support_chat)"></div><div class="col-md-3"><button class="btn btn-soft-primary w-100" type="submit"><i class="ri-search-line me-1"></i> بحث</button></div></form></div><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0"><thead class="table-light"><tr><th>الصلاحية</th><th>الاسم العربي</th><th>الوصف</th></tr></thead><tbody>@forelse($permissions as $permission)<tr><td><code dir="ltr"><bdi>{{ $permission->name }}</bdi></code></td><td>{{ PermissionLabel::for($permission->name) }}</td><td>{{ $permission->description ?: '—' }}</td></tr>@empty<tr><td colspan="3"><div class="text-center py-5"><div class="avatar-md mx-auto mb-3"><div class="avatar-title bg-light text-primary rounded-circle fs-24"><i class="ri-key-line"></i></div></div><h5 class="fs-16 mb-1">لا توجد صلاحيات مطابقة</h5><p class="text-muted mb-0">جرّب عبارة بحث أخرى.</p></div></td></tr>@endforelse</tbody></table></div></div><div class="card-footer">{{ $permissions->links() }}</div></div>
+@endsection

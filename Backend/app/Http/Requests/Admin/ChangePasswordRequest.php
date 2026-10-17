@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Http\Requests\Admin;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
+
+final class ChangePasswordRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return ['current_password' => ['required', 'string'], 'password' => ['required', 'confirmed', Password::min(12)->letters()->mixedCase()->numbers()]];
+    }
+}

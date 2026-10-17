@@ -1,0 +1,30 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "alwafaaapp",
+          "appId": "1:146432039506:android:e4fb6eb3b1ab767c941d8b",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "alwafaaapp",
+          "appId": "1:146432039506:ios:6f9ba43f708b6895941d8b",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "alwafaaapp",
+          "configurations": {
+            "android": "1:146432039506:android:e4fb6eb3b1ab767c941d8b",
+            "ios": "1:146432039506:ios:6f9ba43f708b6895941d8b"
+          }
+        }
+      }
+    }
+  }
+}
