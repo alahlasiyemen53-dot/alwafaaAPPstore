@@ -23,8 +23,9 @@ final class DeepLinkTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        config(['deep_link.base_url' => 'https://lamma.alwafaamed.com']);
-        config(['deep_link.scheme' => 'lamma']);
+        config(['deep_link.base_url' => 'https://wafapp.alwafaamed.com']);
+        config(['deep_link.scheme' => 'storeapp']);
+        config(['deep_link.android.package_name' => 'com.alwafaamed.storeapp']);
         app(AppReleaseService::class)->clearCache();
     }
 
@@ -39,7 +40,7 @@ final class DeepLinkTest extends TestCase
                 'relation' => ['delegate_permission/common.handle_all_urls'],
                 'target' => [
                     'namespace' => 'android_app',
-                    'package_name' => 'com.alwafaa.lamma_app',
+                    'package_name' => 'com.alwafaamed.storeapp',
                 ],
             ],
         ]);
@@ -95,8 +96,8 @@ final class DeepLinkTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('عطر سوفاج لوكس');
-        $response->assertSee('lamma://product/'.$product->id);
-        $response->assertSee('https://lamma.alwafaamed.com/p/'.$product->id);
+        $response->assertSee('storeapp://product/'.$product->id);
+        $response->assertSee('https://wafapp.alwafaamed.com/p/'.$product->id);
         $response->assertSee('og:title', false);
         $response->assertSee('twitter:card', false);
     }
@@ -126,7 +127,7 @@ final class DeepLinkTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('عرض الصيف الفاخر');
-        $response->assertSee('lamma://offer/'.$promotion->id);
+        $response->assertSee('storeapp://offer/'.$promotion->id);
     }
 
     public function test_store_urls_reflect_admin_settings_override(): void

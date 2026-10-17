@@ -11,6 +11,6 @@ class ExampleTest extends TestCase
         $response = $this->get('/');
 
         $response->assertOk();
-        $response->assertSee('الأناقة والجمال', false);
+        $response->assertSee('الوفاء استور', false);
     }
 }

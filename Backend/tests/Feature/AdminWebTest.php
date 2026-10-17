@@ -23,8 +23,8 @@ final class AdminWebTest extends TestCase
     {
         $this->get('/')
             ->assertOk()
-            ->assertSee('الأناقة والجمال', false)
-            ->assertSee('B&amp;e', false);
+            ->assertSee('الوفاء استور', false)
+            ->assertSee('AW', false);
     }
 
     public function test_admin_web_login_reads_dashboard_from_database(): void

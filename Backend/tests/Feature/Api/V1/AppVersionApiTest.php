@@ -41,7 +41,7 @@ final class AppVersionApiTest extends TestCase
         );
         Setting::updateOrCreate(
             ['key' => 'app_android_store_url'],
-            ['value' => 'https://play.google.com/store/apps/details?id=com.alwafaa.lamma_app', 'type' => 'string']
+            ['value' => 'https://play.google.com/store/apps/details?id=com.alwafaamed.storeapp', 'type' => 'string']
         );
         Setting::updateOrCreate(
             ['key' => 'app_ios_store_url'],
@@ -67,7 +67,7 @@ final class AppVersionApiTest extends TestCase
             ->assertJsonPath('data.is_force', true)
             ->assertJsonPath(
                 'data.android_store_url',
-                'https://play.google.com/store/apps/details?id=com.alwafaa.lamma_app'
+                'https://play.google.com/store/apps/details?id=com.alwafaamed.storeapp'
             )
             ->assertJsonPath('data.ios_store_url', 'https://apps.apple.com/app/id123456789');
     }

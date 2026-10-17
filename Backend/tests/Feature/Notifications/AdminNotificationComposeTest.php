@@ -138,7 +138,7 @@ final class AdminNotificationComposeTest extends TestCase
 
         Queue::assertNothingPushed();
         self::assertCount(1, $sender->topicCalls);
-        self::assertSame('lamma_general', $sender->topicCalls[0]['topic']);
+        self::assertSame('storeapp_general', $sender->topicCalls[0]['topic']);
         $this->assertDatabaseHas('business_notifications', [
             'title' => 'إشعار عام',
             'status' => 'sent',
