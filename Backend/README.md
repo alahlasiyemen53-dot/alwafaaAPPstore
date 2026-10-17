@@ -1,6 +1,6 @@
-# Lamma Backend
+# AL-Wafa'a Store Backend
 
-Laravel 12 REST API foundation for the Lamma beauty commerce platform.
+Laravel 12 REST API foundation for the AL-Wafa'a Store beauty commerce platform.
 
 ## Requirements
 

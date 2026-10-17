@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', trim($__env->yieldContent('code')).' | لمّة')
+@section('title', trim($__env->yieldContent('code')).' | الوفاء استور')
 @section('page-title', trim($__env->yieldContent('heading')))
 @section('content')
 <div class="row justify-content-center py-5">

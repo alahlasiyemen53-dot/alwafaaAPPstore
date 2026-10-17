@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'طلبات المبيعات | لمّة')
+@section('title', 'طلبات المبيعات | الوفاء استور')
 
 @section('content')
 <div class="row">

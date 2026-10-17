@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'إنشاء طلب مبيعات جديد | لمّة')
+@section('title', 'إنشاء طلب مبيعات جديد | الوفاء استور')
 
 @section('content')
 <form action="{{ route('admin.orders.store') }}" method="POST" id="order-form">

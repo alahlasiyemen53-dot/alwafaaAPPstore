@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', $entityLabel.' | لمّة')
+@section('title', $entityLabel.' | الوفاء استور')
 @section('page-title', $entityLabel)
 @section('content')
 @php($permission = in_array($entity,['countries','governorates','cities','districts','delivery-methods']) ? 'locations' : $entity)

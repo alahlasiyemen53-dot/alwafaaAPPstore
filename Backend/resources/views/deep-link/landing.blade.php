@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>{{ $title }} | لمّة</title>
+    <title>{{ $title }} | الوفاء استور</title>
 
     <!-- Instant 0ms App Launch Script (Executes before page renders) -->
     <script>
@@ -28,7 +28,7 @@
     </script>
 
     <!-- Social Media & Open Graph Meta Tags -->
-    <meta property="og:site_name" content="لمّة | LAMMA Luxury Shopping">
+    <meta property="og:site_name" content="الوفاء استور | AL-Wafa'a Store">
     <meta property="og:title" content="{{ $title }}">
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:image" content="{{ $image }}">
@@ -284,8 +284,8 @@
 
     <div class="container">
         <div class="header-bar">
-            <span class="logo-text">LAMMA | لمّة</span>
-            <span class="badge-tag">{{ $badgeLabel ?? 'تطبيق لمّة' }}</span>
+            <span class="logo-text">AL-Wafa'a Store | الوفاء استور</span>
+            <span class="badge-tag">{{ $badgeLabel ?? 'تطبيق الوفاء استور' }}</span>
         </div>
 
         <div class="media-container">
@@ -331,7 +331,7 @@
     </div>
 
     <div class="footer">
-        جميع الحقوق محفوظة &copy; {{ date('Y') }} لمّة (LAMMA)
+        جميع الحقوق محفوظة &copy; {{ date('Y') }} الوفاء استور (AL-Wafa'a Store)
     </div>
 
     <script>

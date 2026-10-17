@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'إنشاء مرتجع مبيعات جديد | لمّة')
+@section('title', 'إنشاء مرتجع مبيعات جديد | الوفاء استور')
 
 @section('content')
 <form action="{{ route('admin.sales-returns.store') }}" method="POST" id="sales-return-form">

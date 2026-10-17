@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'الإعدادات | لمّة')
+@section('title', 'الإعدادات | الوفاء استور')
 @section('page-title', 'الإعدادات')
 @section('content')
 <div class="row justify-content-center">
@@ -238,7 +238,7 @@
                                               name="settings[support_whatsapp_default_message]" 
                                               rows="2" 
                                               maxlength="500" 
-                                              placeholder="مثال: مرحباً فريق خدمة عملاء لمّة، أود الاستفسار بخصوص...">{{ old('settings.support_whatsapp_default_message', $settings['support_whatsapp_default_message'] ?? '') }}</textarea>
+                                              placeholder="مثال: مرحباً فريق خدمة عملاء الوفاء استور، أود الاستفسار بخصوص...">{{ old('settings.support_whatsapp_default_message', $settings['support_whatsapp_default_message'] ?? '') }}</textarea>
                                     <div class="d-flex justify-content-between form-text fs-12 text-muted">
                                         <span>رسالة مسبقة تظهر للمستخدم عند فتح المحادثة، بحد أقصى 500 حرف.</span>
                                     </div>
@@ -356,7 +356,7 @@
                                        class="form-control @error('settings.app_android_store_url') is-invalid @enderror"
                                        id="app_android_store_url"
                                        name="settings[app_android_store_url]"
-                                       value="{{ old('settings.app_android_store_url', $settings['app_android_store_url'] ?? 'https://play.google.com/store/apps/details?id=com.alwafaa.lamma_app') }}"
+                                       value="{{ old('settings.app_android_store_url', $settings['app_android_store_url'] ?? 'https://play.google.com/store/apps/details?id=com.alwafaamed.storeapp') }}"
                                        dir="ltr">
                                 @error('settings.app_android_store_url')<span class="field-error text-danger fs-12">{{ $message }}</span>@enderror
                             </div>

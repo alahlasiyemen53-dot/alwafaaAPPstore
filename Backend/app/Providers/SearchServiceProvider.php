@@ -47,7 +47,7 @@ final class SearchServiceProvider extends ServiceProvider
         $this->app->singleton(MeilisearchIndexManager::class, function ($app) {
             return new MeilisearchIndexManager(
                 client: $app->make(MeilisearchClientInterface::class),
-                indexPrefix: (string) config('search.meilisearch.index_prefix', 'lamma_catalog_'),
+                indexPrefix: (string) config('search.meilisearch.index_prefix', 'storeapp_catalog_'),
             );
         });
 
@@ -87,7 +87,7 @@ final class SearchServiceProvider extends ServiceProvider
                 return new MeilisearchVectorStore(
                     client: $app->make(MeilisearchClientInterface::class),
                     fallbackStore: $app->make(DatabaseCosineVectorStore::class),
-                    indexPrefix: (string) config('search.meilisearch.index_prefix', 'lamma_catalog_'),
+                    indexPrefix: (string) config('search.meilisearch.index_prefix', 'storeapp_catalog_'),
                 );
             }
 

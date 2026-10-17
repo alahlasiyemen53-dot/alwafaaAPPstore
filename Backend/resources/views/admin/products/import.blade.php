@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'استيراد منتجات Excel | لمّة')
+@section('title', 'استيراد منتجات Excel | الوفاء استور')
 @section('page-title', 'استيراد منتجات Excel')
 @section('content')
 @php($preview = session('product_import_preview'))

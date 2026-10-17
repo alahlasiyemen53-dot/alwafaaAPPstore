@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', ($product ? 'تعديل منتج' : 'منتج جديد').' | لمّة')
+@section('title', ($product ? 'تعديل منتج' : 'منتج جديد').' | الوفاء استور')
 @section('page-title', $product ? 'تعديل منتج' : 'منتج جديد')
 @section('content')
 @if($product)
@@ -152,7 +152,7 @@
                         </label>
                     </div>
                     <div class="form-text fs-12 text-muted">
-                        إضافة وسم حصري لمنصة لمّة (لا يمنع شراءه من أي فئة عملاء محددة).
+                        إضافة وسم حصري لمنصة الوفاء استور (لا يمنع شراءه من أي فئة عملاء محددة).
                     </div>
                 </div>
             </div>

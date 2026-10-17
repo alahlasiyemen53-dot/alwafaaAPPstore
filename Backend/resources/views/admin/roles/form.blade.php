@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @php use App\Support\PermissionLabel; @endphp
-@section('title', ($role ? 'تعديل دور' : 'دور جديد').' | لمّة')
+@section('title', ($role ? 'تعديل دور' : 'دور جديد').' | الوفاء استور')
 @section('page-title', $role ? 'تعديل دور' : 'دور جديد')
 @section('content')
 <div class="row">

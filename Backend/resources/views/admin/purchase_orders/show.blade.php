@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'طلب شراء '.$purchaseOrder->po_number.' | لمّة')
+@section('title', 'طلب شراء '.$purchaseOrder->po_number.' | الوفاء استور')
 @section('page-title', 'تفاصيل طلب الشراء')
 
 @section('content')

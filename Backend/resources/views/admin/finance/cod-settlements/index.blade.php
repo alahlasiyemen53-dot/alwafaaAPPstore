@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'تسويات عهد المناديب (COD) | لمّة')
+@section('title', 'تسويات عهد المناديب (COD) | الوفاء استور')
 @section('page-title', 'تسويات عهد المناديب النقدية')
 
 @section('content')

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'قوائم رغبات العملاء (المفضلة) | لمّة')
+@section('title', 'قوائم رغبات العملاء (المفضلة) | الوفاء استور')
 @section('page-title', 'مفضلة العملاء')
 
 @section('content')

@@ -11,7 +11,7 @@ use Kreait\Firebase\Messaging\Notification;
 use Throwable;
 
 /**
- * Sends a one-off broadcast to the Flutter app general topic (lamma_general).
+ * Sends a one-off broadcast to the Flutter app general topic (storeapp_general).
  * Uses kreait/firebase-php — same stack as FirebaseCloudMessagingSender.
  */
 final class SendGeneralTopicNotificationCommand extends Command
@@ -19,7 +19,7 @@ final class SendGeneralTopicNotificationCommand extends Command
     protected $signature = 'notifications:send-general
                             {--title=مرحبا بك في لمة :Notification title}
                             {--body=هذا اول اشعار عام من خادم لمة عبر Firebase :Notification body}
-                            {--topic=lamma_general :FCM topic name}';
+                            {--topic=storeapp_general :FCM topic name}';
 
     protected $description = 'Send a general FCM topic notification via Kreait (smoke test).';
 

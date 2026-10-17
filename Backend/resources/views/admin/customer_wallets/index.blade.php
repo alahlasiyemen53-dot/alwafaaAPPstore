@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'محافظ العملاء | لمّة')
+@section('title', 'محافظ العملاء | الوفاء استور')
 @section('page-title', 'إدارة محافظ العملاء')
 
 @section('content')

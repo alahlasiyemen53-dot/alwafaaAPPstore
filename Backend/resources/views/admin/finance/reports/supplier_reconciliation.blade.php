@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'مطابقة ذمم الموردين مع الأستاذ العام | لمّة')
+@section('title', 'مطابقة ذمم الموردين مع الأستاذ العام | الوفاء استور')
 @section('page-title', 'مطابقة حساب الموردين والذمم الدائنة')
 
 @section('content')

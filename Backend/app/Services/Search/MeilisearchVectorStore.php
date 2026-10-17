@@ -15,7 +15,7 @@ final class MeilisearchVectorStore implements VisualVectorStoreInterface
         private readonly DatabaseCosineVectorStore $fallbackStore,
         ?string $indexPrefix = null,
     ) {
-        $prefix = $indexPrefix ?? (string) config('search.meilisearch.index_prefix', 'lamma_catalog_');
+        $prefix = $indexPrefix ?? (string) config('search.meilisearch.index_prefix', 'storeapp_catalog_');
         $this->indexName = $prefix.'vectors';
     }
 

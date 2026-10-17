@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'الأمان والجلسات | لمّة')
+@section('title', 'الأمان والجلسات | الوفاء استور')
 @section('page-title', 'الأمان والجلسات')
 @section('content')
 <div class="page-heading">

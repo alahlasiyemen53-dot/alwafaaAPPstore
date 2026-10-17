@@ -212,7 +212,7 @@ final class AdminOrderWebController extends Controller
             'items.unit',
         ]);
 
-        $appName = (string) (Setting::query()->where('key', 'application_name')->value('value') ?? 'لمّة');
+        $appName = (string) (Setting::query()->where('key', 'application_name')->value('value') ?? 'الوفاء استور');
 
         return view('admin.orders.print', [
             'order' => $order,

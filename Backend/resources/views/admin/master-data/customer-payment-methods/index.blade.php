@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'طرق دفع العملاء | لمّة')
+@section('title', 'طرق دفع العملاء | الوفاء استور')
 @section('page-title', 'طرق دفع العملاء')
 @section('content')
 <div class="page-heading">

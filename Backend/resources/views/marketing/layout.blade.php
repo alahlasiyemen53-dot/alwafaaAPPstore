@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title ?? 'الأناقة والجمال' }} — Beauty &amp; Elegance</title>
+    <title>{{ $title ?? 'الوفاء استور' }} — AL-Wafa'a Store</title>
     <meta name="description" content="{{ $metaDescription ?? 'متجر رقمي لمستحضرات التجميل والعطور المختارة.' }}">
     <meta name="theme-color" content="#800020">
     <link rel="icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/svg+xml">
@@ -18,11 +18,11 @@
 @endphp
 <header class="site-header">
     <div class="container nav-bar">
-        <a class="brand" href="{{ route('marketing.home') }}" aria-label="الأناقة والجمال">
-            <span class="brand-mark" aria-hidden="true">B&amp;e</span>
+        <a class="brand" href="{{ route('marketing.home') }}" aria-label="الوفاء استور">
+            <span class="brand-mark" aria-hidden="true">AW</span>
             <span class="brand-text">
-                <strong>الأناقة والجمال</strong>
-                <span>Beauty &amp; Elegance</span>
+                <strong>الوفاء استور</strong>
+                <span>AL-Wafa'a Store</span>
             </span>
         </a>
 
@@ -59,8 +59,8 @@
     <div class="container">
         <div class="footer-grid">
             <div class="footer-brand">
-                <strong>الأناقة والجمال</strong>
-                <span>Beauty &amp; Elegance</span>
+                <strong>الوفاء استور</strong>
+                <span>AL-Wafa'a Store</span>
                 <p style="margin:0.85rem 0 0;font-size:0.92rem;max-width:28ch;">
                     منصة رقمية لعرض منتجات التجميل والعطور واستقبال الطلبات بعناية من الاكتشاف حتى التوصيل.
                 </p>
@@ -81,7 +81,7 @@
                 </ul>
             </div>
         </div>
-        <p class="footer-copy">© {{ date('Y') }} الأناقة والجمال — Beauty &amp; Elegance. جميع الحقوق محفوظة.</p>
+        <p class="footer-copy">© {{ date('Y') }} الوفاء استور — AL-Wafa'a Store. جميع الحقوق محفوظة.</p>
     </div>
 </footer>
 

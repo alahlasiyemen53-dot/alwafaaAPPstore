@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'طلبات الشراء تحت الطلب | لمّة')
+@section('title', 'طلبات الشراء تحت الطلب | الوفاء استور')
 @section('page-title', 'طلبات الشراء (الأصناف تحت الطلب)')
 
 @section('content')

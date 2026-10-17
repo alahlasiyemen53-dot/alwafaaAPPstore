@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'تفاصيل التقييم #' . $review->id . ' | لمّة')
+@section('title', 'تفاصيل التقييم #' . $review->id . ' | الوفاء استور')
 @section('page-title', 'تفاصيل التقييم والمراجعة')
 
 @section('content')
@@ -120,7 +120,7 @@
                                         <td>{{ $comment->id }}</td>
                                         <td>
                                             @if($comment->isOfficialAdminReply())
-                                                <span class="fw-medium">{{ $comment->adminUser?->name ?: 'إدارة لمّة' }}</span>
+                                                <span class="fw-medium">{{ $comment->adminUser?->name ?: 'إدارة الوفاء استور' }}</span>
                                                 <div class="text-muted fs-12">{{ $comment->adminUser?->email }}</div>
                                             @else
                                                 <span class="fw-medium">{{ $comment->customer?->name ?: 'عميل' }}</span>

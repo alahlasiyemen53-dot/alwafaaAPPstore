@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', ($collection ? 'تعديل مجموعة' : 'مجموعة جديدة').' | لمّة')
+@section('title', ($collection ? 'تعديل مجموعة' : 'مجموعة جديدة').' | الوفاء استور')
 @section('page-title', $collection ? 'تعديل مجموعة' : 'مجموعة جديدة')
 
 @section('content')

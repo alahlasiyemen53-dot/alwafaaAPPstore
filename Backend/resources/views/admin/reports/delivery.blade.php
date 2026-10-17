@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'تقرير التوصيل | لمّة')
+@section('title', 'تقرير التوصيل | الوفاء استور')
 @section('page-title', 'تقرير التوصيل')
 
 @section('content')

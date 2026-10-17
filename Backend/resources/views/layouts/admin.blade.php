@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'لوحة الإدارة | لمّة')</title>
+    <title>@yield('title', 'لوحة الإدارة | الوفاء استور')</title>
     <link rel="icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/svg+xml">
     <script src="{{ asset('assets/js/layout.js') }}"></script>
     <link href="{{ asset('assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">

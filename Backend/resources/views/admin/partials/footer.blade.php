@@ -1,1 +1,1 @@
-<footer class="footer"><div class="container-fluid"><div class="row"><div class="col-sm-6">{{ now()->year }} © لمّة.</div><div class="col-sm-6"><div class="text-sm-end d-none d-sm-block">لوحة إدارة التجارة والجمال</div></div></div></div></footer>
+<footer class="footer"><div class="container-fluid"><div class="row"><div class="col-sm-6">{{ now()->year }} © الوفاء استور.</div><div class="col-sm-6"><div class="text-sm-end d-none d-sm-block">لوحة إدارة الوفاء استور</div></div></div></div></footer>

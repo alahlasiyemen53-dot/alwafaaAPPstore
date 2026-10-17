@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'تفاصيل حركة الخزينة ' . $transaction->transaction_number . ' | لمّة')
+@section('title', 'تفاصيل حركة الخزينة ' . $transaction->transaction_number . ' | الوفاء استور')
 @section('page-title', 'تفاصيل حركة الخزينة')
 
 @section('content')

@@ -48,7 +48,7 @@ final class MasterDataSeeder extends Seeder
             Governorate::query()->where('name_ar', $name)->whereNull('country_id')->update(['country_id' => $yemen->id]);
         }
         Setting::upsert([
-            ['key' => 'application_name', 'value' => 'Lamma', 'type' => 'string'],
+            ['key' => 'application_name', 'value' => "AL-Wafa'a Store", 'type' => 'string'],
             ['key' => 'default_locale', 'value' => 'ar', 'type' => 'string'],
         ], ['key'], ['value', 'type']);
     }

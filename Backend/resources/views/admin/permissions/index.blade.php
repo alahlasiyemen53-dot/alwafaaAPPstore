@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @php use App\Support\PermissionLabel; @endphp
-@section('title', 'الصلاحيات | لمّة')
+@section('title', 'الصلاحيات | الوفاء استور')
 @section('page-title', 'الصلاحيات')
 @section('content')
 <div class="page-heading"><div><h2 class="fs-18 mb-1">دليل الصلاحيات</h2><p>الصلاحيات معرفة في النظام وتُسند من خلال الأدوار.</p></div><span class="badge bg-info-subtle text-info">للقراءة فقط</span></div>

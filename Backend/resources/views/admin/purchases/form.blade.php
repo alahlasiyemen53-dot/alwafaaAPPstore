@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', ($invoice ? 'تعديل فاتورة شراء #'.$invoice->invoice_number : 'فاتورة شراء جديدة').' | لمّة')
+@section('title', ($invoice ? 'تعديل فاتورة شراء #'.$invoice->invoice_number : 'فاتورة شراء جديدة').' | الوفاء استور')
 @section('page-title', $invoice ? 'تعديل فاتورة شراء' : 'فاتورة شراء جديدة')
 
 @section('content')

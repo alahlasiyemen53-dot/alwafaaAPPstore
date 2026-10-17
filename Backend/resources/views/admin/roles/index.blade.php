@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'الأدوار | لمّة')
+@section('title', 'الأدوار | الوفاء استور')
 @section('page-title', 'الأدوار')
 @section('content')
 <div class="page-heading"><div><h2 class="fs-18 mb-1">أدوار فريق الإدارة</h2><p>تجميع الصلاحيات حسب مسؤوليات العمل.</p></div>@if(auth()->user()->hasPermission('admin.roles.create'))<a class="btn btn-primary" href="{{ route('admin.roles.web.create') }}"><i class="ri-add-line me-1"></i> دور جديد</a>@endif</div>

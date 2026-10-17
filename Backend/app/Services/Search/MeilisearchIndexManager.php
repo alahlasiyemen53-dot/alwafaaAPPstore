@@ -12,7 +12,7 @@ final class MeilisearchIndexManager
         private readonly MeilisearchClientInterface $client,
         ?string $indexPrefix = null,
     ) {
-        $this->indexPrefix = $indexPrefix ?? (string) config('search.meilisearch.index_prefix', 'lamma_catalog_');
+        $this->indexPrefix = $indexPrefix ?? (string) config('search.meilisearch.index_prefix', 'storeapp_catalog_');
     }
 
     public function getCatalogIndexName(): string

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'سجلات رموز التحقق (OTP) | لمّة')
+@section('title', 'سجلات رموز التحقق (OTP) | الوفاء استور')
 @section('page-title', 'سجلات وتحديات رموز التحقق (OTP)')
 
 @section('content')

@@ -17,7 +17,7 @@ final class MarketingPageController extends Controller
     public function home(): View
     {
         return view('marketing.home', [
-            'title' => 'الأناقة والجمال',
+            'title' => 'الوفاء استور',
             'metaDescription' => 'متجر رقمي لمستحضرات التجميل والعطور المختارة — اكتشف، اطلب، واستلم بأناقة.',
         ]);
     }
@@ -26,7 +26,7 @@ final class MarketingPageController extends Controller
     {
         return view('marketing.about', [
             'title' => 'من نحن',
-            'metaDescription' => 'تعرف على قصة الأناقة والجمال ورؤيتنا لتجربة تسوّق تجميل رقمية منظمة.',
+            'metaDescription' => 'تعرف على قصة الوفاء استور ورؤيتنا لتجربة تسوّق تجميل رقمية منظمة.',
         ]);
     }
 
@@ -56,13 +56,13 @@ final class MarketingPageController extends Controller
 
         return view('marketing.contact', [
             'title' => 'تواصل معنا',
-            'metaDescription' => 'قنوات التواصل مع فريق الأناقة والجمال — هاتف، واتساب، وبريد.',
+            'metaDescription' => 'قنوات التواصل مع فريق الوفاء استور — هاتف، واتساب، وبريد.',
             'phone' => $phone,
             'telLink' => $telLink,
             'whatsappNumber' => $whatsappNumber,
             'whatsappLink' => $whatsappLink,
             'hoursText' => $settings['hours_text_ar'] ?? null,
-            'fallbackEmail' => 'hello@beauty-elegance.app',
+            'fallbackEmail' => 'hello@wafapp.alwafaamed.com',
         ]);
     }
 
@@ -70,7 +70,7 @@ final class MarketingPageController extends Controller
     {
         return view('marketing.privacy', [
             'title' => 'سياسة الخصوصية',
-            'metaDescription' => 'كيف تجمع منصة الأناقة والجمال بياناتك وتحميها وتستخدمها في تجربة التسوّق والطلبات.',
+            'metaDescription' => 'كيف تجمع منصة الوفاء استور بياناتك وتحميها وتستخدمها في تجربة التسوّق والطلبات.',
         ]);
     }
 
@@ -78,7 +78,7 @@ final class MarketingPageController extends Controller
     {
         return view('marketing.delete-account', [
             'title' => 'تعليمات حذف الحساب',
-            'metaDescription' => 'خطوات طلب حذف حسابك في تطبيق الأناقة والجمال وفق سياسات المتاجر.',
+            'metaDescription' => 'خطوات طلب حذف حسابك في تطبيق الوفاء استور وفق سياسات المتاجر.',
         ]);
     }
 }

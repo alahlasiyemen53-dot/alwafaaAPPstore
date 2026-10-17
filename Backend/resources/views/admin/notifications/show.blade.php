@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'تفاصيل الإشعار ' . $notification->business_reference . ' | لمّة')
+@section('title', 'تفاصيل الإشعار ' . $notification->business_reference . ' | الوفاء استور')
 @section('page-title', 'تفاصيل الإشعار وعمليات التسليم')
 
 @section('content')

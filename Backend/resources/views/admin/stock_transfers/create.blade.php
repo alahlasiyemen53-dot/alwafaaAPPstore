@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'إنشاء أمر تحويل مخزون | لمّة')
+@section('title', 'إنشاء أمر تحويل مخزون | الوفاء استور')
 
 @section('content')
 <div class="row justify-content-center">

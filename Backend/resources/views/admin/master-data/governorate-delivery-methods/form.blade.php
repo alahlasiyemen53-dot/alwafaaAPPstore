@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', ($assignment ? 'تعديل ربط' : 'إضافة ربط').' | لمّة')
+@section('title', ($assignment ? 'تعديل ربط' : 'إضافة ربط').' | الوفاء استور')
 @section('page-title', $assignment ? 'تعديل ربط توصيل' : 'إضافة ربط توصيل')
 @section('content')
 @php($lockedMethodId = $lockedDeliveryMethodId ?? null)

@@ -18,7 +18,7 @@ final class HomeSectionSeeder extends Seeder
             [HomeSectionType::Brands, 'العلامات التجارية', 'Brands', 30],
             [HomeSectionType::BestSellers, 'الأكثر مبيعاً', 'Best Sellers', 40],
             [HomeSectionType::NewProducts, 'وصل حديثاً', 'New Arrivals', 50],
-            [HomeSectionType::ExclusiveProducts, 'حصريات لمّة', 'Exclusive', 60],
+            [HomeSectionType::ExclusiveProducts, 'حصريات الوفاء استور', 'Exclusive', 60],
             [HomeSectionType::RecentlyViewed, 'شاهدتها مؤخراً', 'Recently Viewed', 70],
         ];
 

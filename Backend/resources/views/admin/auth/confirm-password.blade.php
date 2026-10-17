@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'تأكيد كلمة المرور | لمّة')
+@section('title', 'تأكيد كلمة المرور | الوفاء استور')
 @section('page-title', 'تأكيد كلمة المرور')
 @section('content')
 <div class="row justify-content-center">

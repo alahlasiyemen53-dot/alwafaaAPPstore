@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'محادثات الدعم | لمّة')
+@section('title', 'محادثات الدعم | الوفاء استور')
 @section('page-title', 'محادثات الدعم المباشر')
 @section('content')
 @php

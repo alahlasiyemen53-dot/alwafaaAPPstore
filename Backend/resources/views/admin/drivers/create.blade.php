@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'إضافة مندوب توصيل جديد | لمّة')
+@section('title', 'إضافة مندوب توصيل جديد | الوفاء استور')
 @section('page-title', 'إضافة مندوب توصيل')
 
 @section('content')

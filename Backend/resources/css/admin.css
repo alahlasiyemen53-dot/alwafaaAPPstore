@@ -3,8 +3,8 @@
     --vz-body-font-family: var(--vz-font-sans-serif) !important;
     --vz-body-font-size: 0.75rem; /* 12px */
     --bs-body-font-size: 0.75rem;
-    --lamma-primary: var(--vz-primary);
-    --lamma-ink: var(--vz-dark);
+    --wafaa-primary: var(--vz-primary);
+    --wafaa-ink: var(--vz-dark);
 }
 
 body, button, input, select, textarea, .table, .navbar-menu {
@@ -19,25 +19,25 @@ body, button, input, select, textarea, .table, .navbar-menu {
     z-index: 1100;
     padding: .7rem 1rem;
     color: #fff;
-    background: var(--lamma-ink);
+    background: var(--wafaa-ink);
     border-radius: .35rem;
 }
 
 .skip-link:focus { inset-block-start: 1rem; }
 
-.lamma-mark {
+.wafaa-mark {
     display: inline-grid;
     place-items: center;
     width: 2.2rem;
     height: 2.2rem;
     color: #fff;
-    background: var(--lamma-primary);
+    background: var(--wafaa-primary);
     border-radius: .55rem;
     font-size: 1.3rem;
     font-weight: 800;
 }
 
-.lamma-brand {
+.wafaa-brand {
     display: inline-flex;
     align-items: center;
     gap: .65rem;
@@ -45,13 +45,13 @@ body, button, input, select, textarea, .table, .navbar-menu {
     font-size: 1.45rem;
 }
 
-.lamma-brand small {
+.wafaa-brand small {
     color: rgba(255, 255, 255, .58);
     font-size: .65rem;
     font-weight: 400;
 }
 
-.navbar-menu .navbar-nav .nav-link.active { border-inline-start: 3px solid var(--lamma-primary); }
+.navbar-menu .navbar-nav .nav-link.active { border-inline-start: 3px solid var(--wafaa-primary); }
 
 /* Sidebar scrolling & 100% viewport fit fix */
 :root:not([data-sidebar-size="sm"]) .navbar-menu {
@@ -196,7 +196,7 @@ body, button, input, select, textarea, .table, .navbar-menu {
     text-decoration: none;
 }
 
-.auth-lamma .auth-one-bg {
+.auth-wafaa .auth-one-bg {
     background-image: linear-gradient(135deg, rgba(var(--vz-dark-rgb), .92), rgba(var(--vz-primary-rgb), .75)), url('/assets/images/auth-one-bg.jpg');
 }
 
@@ -210,7 +210,7 @@ body, button, input, select, textarea, .table, .navbar-menu {
 }
 
 .auth-brand:hover { color: #fff; }
-.auth-brand .lamma-mark { box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .18); }
+.auth-brand .wafaa-mark { box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .18); }
 .auth-pass-toggle { inset-inline-end: 0; inset-inline-start: auto; }
 
 .avatar-title {
@@ -226,7 +226,7 @@ body, button, input, select, textarea, .table, .navbar-menu {
 }
 
 .dashboard-welcome .welcome-icon {
-    color: var(--lamma-primary);
+    color: var(--wafaa-primary);
     font-size: 5rem;
     opacity: .18;
     transform: rotate(-12deg);
@@ -239,7 +239,7 @@ body, button, input, select, textarea, .table, .navbar-menu {
 
 .quick-link:hover {
     transform: translateY(-2px);
-    border-color: var(--lamma-primary);
+    border-color: var(--wafaa-primary);
 }
 
 .quick-link i { font-size: 1.35rem; }

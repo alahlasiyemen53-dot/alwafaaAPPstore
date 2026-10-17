@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'تفاصيل الشحنة ' . $delivery->delivery_number . ' | لمّة')
+@section('title', 'تفاصيل الشحنة ' . $delivery->delivery_number . ' | الوفاء استور')
 @section('page-title', 'تفاصيل الشحنة')
 
 @section('content')

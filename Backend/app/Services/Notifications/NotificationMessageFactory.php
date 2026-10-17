@@ -78,13 +78,13 @@ final class NotificationMessageFactory
         $trimmed = trim($preview);
         $body = $trimmed !== ''
             ? mb_substr($trimmed, 0, 120)
-            : 'لديك رد جديد من فريق دعم لمّة.';
+            : 'لديك رد جديد من فريق دعم الوفاء استور.';
 
         return new PushNotificationMessageData(
             $type,
             $type->category(),
             $type->channel(),
-            'رد من دعم لمّة',
+            'رد من دعم الوفاء استور',
             $body,
             $this->payloadPolicy->forSupportChat($conversationUuid, $messageUuid),
         );

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'إدارة '.$deliveryMethod->name_ar.' | لمّة')
+@section('title', 'إدارة '.$deliveryMethod->name_ar.' | الوفاء استور')
 @section('page-title', 'المحافظات والتسعير')
 @section('content')
 <div class="page-heading">

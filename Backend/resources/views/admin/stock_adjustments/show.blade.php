@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'تفاصيل أمر تسوية جردية | لمّة')
+@section('title', 'تفاصيل أمر تسوية جردية | الوفاء استور')
 
 @section('content')
 <div class="row">

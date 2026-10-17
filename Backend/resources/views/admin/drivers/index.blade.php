@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'إدارة مندوبي التوصيل | لمّة')
+@section('title', 'إدارة مندوبي التوصيل | الوفاء استور')
 @section('page-title', 'مندوبو التوصيل')
 
 @section('content')

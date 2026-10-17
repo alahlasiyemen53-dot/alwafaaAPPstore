@@ -28,7 +28,7 @@ final class ReviewCommentResource extends JsonResource
             'is_official_admin_reply' => $isOfficial,
             'author' => [
                 'display_name' => $isOfficial
-                    ? 'إدارة لمّة'
+                    ? 'إدارة الوفاء استور'
                     : CustomerDisplayName::from($comment->customer),
                 'type' => $isOfficial ? 'admin' : 'customer',
             ],

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'كشف عهدة المندوب (COD Statement) | لمّة')
+@section('title', 'كشف عهدة المندوب (COD Statement) | الوفاء استور')
 @section('page-title', 'كشف عهدة المندوب النقدية')
 
 @section('content')

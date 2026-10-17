@@ -8,9 +8,9 @@ return [
     | Deep Link Base URL
     |--------------------------------------------------------------------------
     | Configurable base URL for sharing and deep-linking.
-    | Defaults to https://lamma.alwafaamed.com, can be customized via .env.
+    | Defaults to https://wafapp.alwafaamed.com, can be customized via .env.
     */
-    'base_url' => rtrim(env('DEEP_LINK_BASE_URL', 'https://lamma.alwafaamed.com'), '/'),
+    'base_url' => rtrim(env('DEEP_LINK_BASE_URL', 'https://wafapp.alwafaamed.com'), '/'),
 
     /*
     |--------------------------------------------------------------------------
@@ -18,7 +18,7 @@ return [
     |--------------------------------------------------------------------------
     | Used for universal fallback on web/social in-app browsers.
     */
-    'scheme' => env('DEEP_LINK_SCHEME', 'lamma'),
+    'scheme' => env('DEEP_LINK_SCHEME', 'storeapp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -26,14 +26,14 @@ return [
     |--------------------------------------------------------------------------
     */
     'android' => [
-        'package_name' => env('DEEP_LINK_ANDROID_PACKAGE', 'com.alwafaa.lamma_app'),
+        'package_name' => env('DEEP_LINK_ANDROID_PACKAGE', 'com.alwafaamed.storeapp'),
         'sha256_cert_fingerprints' => array_values(array_filter(array_map(
             'trim',
             explode(',', env('DEEP_LINK_ANDROID_SHA256', ''))
         ))),
         'store_url' => env(
             'APP_ANDROID_STORE_URL',
-            'https://play.google.com/store/apps/details?id=com.alwafaa.lamma_app'
+            'https://play.google.com/store/apps/details?id=com.alwafaamed.storeapp'
         ),
     ],
 
@@ -43,7 +43,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'ios' => [
-        'bundle_id' => env('DEEP_LINK_IOS_BUNDLE_ID', 'com.alwafaa.lammaapp'),
+        'bundle_id' => env('DEEP_LINK_IOS_BUNDLE_ID', 'com.alwafaamed.storeapp'),
         'team_id' => env('DEEP_LINK_IOS_TEAM_ID', ''),
         'store_url' => env('APP_IOS_STORE_URL', ''),
     ],

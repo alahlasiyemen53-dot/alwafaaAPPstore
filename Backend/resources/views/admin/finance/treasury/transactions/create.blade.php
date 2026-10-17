@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'إنشاء سند خزينة جديد | لمّة')
+@section('title', 'إنشاء سند خزينة جديد | الوفاء استور')
 @section('page-title', 'إنشاء سند خزينة جديد')
 
 @section('content')

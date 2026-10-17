@@ -103,7 +103,7 @@ final class AdminNotificationWebController extends Controller
             ->orderBy('name_ar')
             ->get(['id', 'name_ar', 'name_en']);
 
-        $generalTopic = (string) config('services.fcm.general_topic', 'lamma_general');
+        $generalTopic = (string) config('services.fcm.general_topic', 'storeapp_general');
         $segmentStats = $this->composer->getSegmentStatistics();
         $health = $this->fcmHealth();
 

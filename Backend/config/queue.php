@@ -20,7 +20,7 @@ return [
     | Queue Connections
     |--------------------------------------------------------------------------
     |
-    | Lamma uses Redis exclusively for queued work (notifications + search).
+    | AL-Wafa'a Store uses Redis exclusively for queued work (notifications + search).
     | The legacy database driver is intentionally not registered.
     |
     | Drivers: "sync", "redis", "null"

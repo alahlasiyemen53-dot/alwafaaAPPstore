@@ -3,8 +3,8 @@
 @section('content')
 <section class="hero">
     <div class="container hero-inner">
-        <p class="hero-kicker">Beauty &amp; Elegance</p>
-        <p class="hero-brand">B&amp;e</p>
+        <p class="hero-kicker">AL-Wafa'a Store</p>
+        <p class="hero-brand">AW</p>
         <h1>فن الفخامة والجمال بلمسات لا تُنسى</h1>
         <p>مستحضرات استثنائية وعطور مختارة بعناية، في تطبيق يحوّل الاكتشاف إلى طلب منظم وتوصيل موثوق.</p>
         <div class="hero-actions">
@@ -19,7 +19,7 @@
         <div class="section-head reveal">
             <p class="eyebrow">لماذا نحن</p>
             <h2>تجربة تجميل رقمية بهوية واضحة</h2>
-            <p>صمّمنا الأناقة والجمال لتكون واجهتك لاكتشاف المنتجات الحقيقية، مع مسار طلب واضح من السلة حتى التسليم.</p>
+            <p>صمّمنا الوفاء استور لتكون واجهتك لاكتشاف المنتجات الحقيقية، مع مسار طلب واضح من السلة حتى التسليم.</p>
         </div>
         <ul class="feature-list">
             <li class="reveal">
@@ -72,7 +72,7 @@
         <ol class="steps">
             <li class="reveal">
                 <h3>اكتشف</h3>
-                <p>تصفّح المنتجات والمجموعات والعروض داخل تطبيق الأناقة والجمال.</p>
+                <p>تصفّح المنتجات والمجموعات والعروض داخل تطبيق الوفاء استور.</p>
             </li>
             <li class="reveal">
                 <h3>اطلب</h3>
@@ -103,7 +103,7 @@
 <div class="container">
     <div class="cta-band reveal">
         <h2>الجمال يستحق تجربة منظمة</h2>
-        <p>حمّل تطبيق الأناقة والجمال وابدأ رحلتك من الاكتشاف إلى الإطلالة.</p>
+        <p>حمّل تطبيق الوفاء استور وابدأ رحلتك من الاكتشاف إلى الإطلالة.</p>
         <div class="hero-actions">
             <a class="btn btn-ghost" href="{{ route('marketing.contact') }}">اسأل فريق الدعم</a>
             <a class="btn btn-primary" href="{{ route('marketing.about') }}" style="background:#fff7fa;color:#800020;">قصتنا</a>

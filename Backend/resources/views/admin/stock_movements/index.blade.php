@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'سجل حركات المخزون | لمّة')
+@section('title', 'سجل حركات المخزون | الوفاء استور')
 
 @section('content')
 <div class="row">

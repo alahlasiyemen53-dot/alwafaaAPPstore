@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'تعديل مسودة طلب المبيعات: ' . $order->order_number . ' | لمّة')
+@section('title', 'تعديل مسودة طلب المبيعات: ' . $order->order_number . ' | الوفاء استور')
 
 @section('content')
 <form action="{{ route('admin.orders.update', $order) }}" method="POST" id="order-form">

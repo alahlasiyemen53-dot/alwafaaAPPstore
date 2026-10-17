@@ -23,7 +23,7 @@ enum HomeSectionType: string
             self::Brands => 'العلامات التجارية',
             self::BestSellers => 'الأكثر مبيعاً',
             self::NewProducts => 'وصل حديثاً',
-            self::ExclusiveProducts => 'حصريات لمّة',
+            self::ExclusiveProducts => 'حصريات الوفاء استور',
             self::Collection => 'مجموعة منتجات',
             self::RecentlyViewed => 'شاهدتها مؤخراً',
         };

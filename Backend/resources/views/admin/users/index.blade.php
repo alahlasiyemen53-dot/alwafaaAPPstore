@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'المستخدمون | لمّة')
+@section('title', 'المستخدمون | الوفاء استور')
 @section('page-title', 'المستخدمون')
 @section('content')
 <div class="page-heading"><div><h2 class="fs-18 mb-1">فريق الإدارة</h2><p>إدارة الحسابات والأدوار وحالة الوصول.</p></div>@if(auth()->user()->hasPermission('admin.users.create'))<a class="btn btn-primary" href="{{ route('admin.users.web.create') }}"><i class="ri-user-add-line me-1"></i> مستخدم جديد</a>@endif</div>

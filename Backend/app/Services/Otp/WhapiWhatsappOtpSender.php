@@ -85,8 +85,8 @@ final class WhapiWhatsappOtpSender implements OtpSenderInterface
     private function formatMessage(string $code, OtpPurpose $purpose): string
     {
         $intro = match ($purpose) {
-            OtpPurpose::Login => 'رمز تسجيل الدخول لتطبيق لمّة هو:',
-            OtpPurpose::PhoneVerification => 'رمز تأكيد حسابك في تطبيق لمّة هو:',
+            OtpPurpose::Login => 'رمز تسجيل الدخول لتطبيق الوفاء استور هو:',
+            OtpPurpose::PhoneVerification => 'رمز تأكيد حسابك في تطبيق الوفاء استور هو:',
         };
 
         return "{$intro} {$code}\n\nصالح لمدة 5 دقائق. يرجى عدم مشاركته مع أي شخص حفاظاً على أمان حسابك.";

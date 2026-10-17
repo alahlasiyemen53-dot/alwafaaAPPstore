@@ -33,8 +33,8 @@ class CustomerJwtService
     {
         $this->secret = (string) config('jwt.secret', config('app.key'));
         $this->algo = (string) config('jwt.algo', 'HS256');
-        $this->issuer = (string) config('jwt.issuer', config('app.url', 'https://lamma.test'));
-        $this->audience = (string) config('jwt.audience', 'lamma-customer-client');
+        $this->issuer = (string) config('jwt.issuer', config('app.url', 'https://wafapp.test'));
+        $this->audience = (string) config('jwt.audience', 'storeapp-customer-client');
         $this->ttl = (int) config('jwt.ttl', 60);
         $this->refreshTtl = (int) config('jwt.refresh_ttl', 20160);
         $this->leeway = (int) config('jwt.leeway', 0);

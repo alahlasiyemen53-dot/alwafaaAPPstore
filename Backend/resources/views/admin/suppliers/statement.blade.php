@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'كشف حساب مورد: '.$supplier->name.' | لمّة')
+@section('title', 'كشف حساب مورد: '.$supplier->name.' | الوفاء استور')
 @section('page-title', 'كشف حساب المورد')
 
 @section('content')

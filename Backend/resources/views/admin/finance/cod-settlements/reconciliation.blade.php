@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'مطابقة عهد وتحصيلات COD المالية | لمّة')
+@section('title', 'مطابقة عهد وتحصيلات COD المالية | الوفاء استور')
 @section('page-title', 'مطابقة عهد وتحصيلات الدفع عند الاستلام')
 
 @section('content')

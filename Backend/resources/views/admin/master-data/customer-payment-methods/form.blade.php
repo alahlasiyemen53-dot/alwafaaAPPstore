@@ -4,7 +4,7 @@
     use App\Enums\PaymentFlowType;
     use App\Enums\PaymentProviderCode;
 @endphp
-@section('title', ($method ? 'تعديل طريقة دفع' : 'إضافة طريقة دفع').' | لمّة')
+@section('title', ($method ? 'تعديل طريقة دفع' : 'إضافة طريقة دفع').' | الوفاء استور')
 @section('page-title', $method ? 'تعديل طريقة دفع' : 'إضافة طريقة دفع')
 @section('content')
 <div class="page-heading"><div><h2 class="fs-18 mb-1">{{ $method ? 'تعديل طريقة الدفع' : 'طريقة دفع جديدة' }}</h2><p>حدد الرمز والمزوّد وسلوك الدفع في التطبيق.</p></div></div>

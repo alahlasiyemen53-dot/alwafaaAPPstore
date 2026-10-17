@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'المنتجات | لمّة')
+@section('title', 'المنتجات | الوفاء استور')
 @section('page-title', 'المنتجات')
 @section('content')
 <div class="page-heading"><div><h2 class="fs-18 mb-1">كتالوج المنتجات</h2><p>إدارة هوية المنتج وارتباطه بالعلامة التجارية والتصنيف.</p></div>@if(auth()->user()->hasPermission('admin.products.create'))<div class="d-flex gap-2"><a class="btn btn-soft-primary" href="{{ route('admin.products.import.create') }}"><i class="ri-file-excel-2-line me-1"></i> استيراد Excel</a><a class="btn btn-primary" href="{{ route('admin.products.create') }}"><i class="ri-add-line me-1"></i> منتج جديد</a></div>@endif</div>

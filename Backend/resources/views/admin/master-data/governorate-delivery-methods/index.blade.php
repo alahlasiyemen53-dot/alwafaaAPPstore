@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'ربط طرق التوصيل بالمحافظات | لمّة')
+@section('title', 'ربط طرق التوصيل بالمحافظات | الوفاء استور')
 @section('page-title', 'ربط طرق التوصيل بالمحافظات')
 @section('content')
 <div class="page-heading">

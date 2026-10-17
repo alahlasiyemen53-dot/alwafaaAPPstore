@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'تعديل مسودة القيد اليومي | لمّة')
+@section('title', 'تعديل مسودة القيد اليومي | الوفاء استور')
 @section('page-title', 'تعديل مسودة القيد اليومي')
 
 @section('content')

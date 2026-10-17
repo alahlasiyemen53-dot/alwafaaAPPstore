@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'عمليات ومحرك البحث | لمّة')
+@section('title', 'عمليات ومحرك البحث | الوفاء استور')
 @section('page-title', 'عمليات ومحرك البحث (Meilisearch & Visual Search)')
 
 @section('content')

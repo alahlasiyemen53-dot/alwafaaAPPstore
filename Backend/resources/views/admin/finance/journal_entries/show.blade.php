@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'تفاصيل القيد اليومي ' . $entry->entry_number . ' | لمّة')
+@section('title', 'تفاصيل القيد اليومي ' . $entry->entry_number . ' | الوفاء استور')
 @section('page-title', 'تفاصيل القيد المحاسبي')
 
 @section('content')

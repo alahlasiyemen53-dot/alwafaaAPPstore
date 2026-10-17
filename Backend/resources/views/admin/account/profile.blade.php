@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'الملف الشخصي | لمّة')
+@section('title', 'الملف الشخصي | الوفاء استور')
 @section('page-title', 'الملف الشخصي')
 @section('content')
 <div class="row justify-content-center"><div class="col-xl-8"><div class="card"><div class="card-header"><h2 class="card-title mb-0">بيانات الحساب</h2></div><div class="card-body">

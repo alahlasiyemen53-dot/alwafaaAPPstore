@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', ($adminUser ? 'تعديل مستخدم' : 'مستخدم جديد').' | لمّة')
+@section('title', ($adminUser ? 'تعديل مستخدم' : 'مستخدم جديد').' | الوفاء استور')
 @section('page-title', $adminUser ? 'تعديل مستخدم' : 'مستخدم جديد')
 @section('content')
 <div class="row justify-content-center"><div class="col-xl-9"><div class="card"><div class="card-header"><h2 class="card-title mb-0">{{ $adminUser ? 'بيانات '.$adminUser->name : 'إنشاء حساب إداري' }}</h2></div><div class="card-body">

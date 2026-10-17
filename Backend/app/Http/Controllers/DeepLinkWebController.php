@@ -39,10 +39,10 @@ final class DeepLinkWebController extends Controller
             throw new NotFoundHttpException('المنتج غير موجود.');
         }
 
-        $title = $model->name_ar ?: $model->name_en ?: 'منتج فاخر من لمّة';
+        $title = $model->name_ar ?: $model->name_en ?: 'منتج فاخر من الوفاء استور';
         $description = $model->description_ar
             ?: $model->description_en
-            ?: 'تسوق أرقى منتجات الجمال والعطور الفاخرة عبر تطبيق لمّة.';
+            ?: 'تسوق أرقى منتجات الجمال والعطور الفاخرة عبر تطبيق الوفاء استور.';
 
         // Primary media or first media image
         $image = $model->getFirstMediaUrl('product_images', 'large')
@@ -91,9 +91,9 @@ final class DeepLinkWebController extends Controller
             throw new NotFoundHttpException('العرض غير موجود.');
         }
 
-        $title = $model->name ?: 'عرض خاص من لمّة';
+        $title = $model->name ?: 'عرض خاص من الوفاء استور';
         $description = $model->description
-            ?: 'اكتشف أفضل الخصومات والعروض الحصرية المتوفرة الآن في تطبيق لمّة.';
+            ?: 'اكتشف أفضل الخصومات والعروض الحصرية المتوفرة الآن في تطبيق الوفاء استور.';
 
         $image = asset('images/logo.png');
 
@@ -125,9 +125,9 @@ final class DeepLinkWebController extends Controller
             throw new NotFoundHttpException('المجموعة غير موجودة.');
         }
 
-        $title = $model->name_ar ?: $model->name_en ?: 'مجموعة مختارة من لمّة';
+        $title = $model->name_ar ?: $model->name_en ?: 'مجموعة مختارة من الوفاء استور';
         $description = $model->description_ar
-            ?: 'تصفح أحدث التشكيلات الحصرية عبر تطبيق لمّة.';
+            ?: 'تصفح أحدث التشكيلات الحصرية عبر تطبيق الوفاء استور.';
 
         $image = $model->getCoverUrl('large')
             ?: $model->getCoverUrl('small')

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'دفتر الأستاذ العام | لمّة')
+@section('title', 'دفتر الأستاذ العام | الوفاء استور')
 @section('page-title', 'دفتر الأستاذ العام (General Ledger)')
 
 @section('content')

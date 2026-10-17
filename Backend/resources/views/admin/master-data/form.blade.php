@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', ($record ? 'تعديل ' : 'إضافة ').$entityLabel.' | لمّة')
+@section('title', ($record ? 'تعديل ' : 'إضافة ').$entityLabel.' | الوفاء استور')
 @section('page-title', $record ? 'تعديل '.$entityLabel : 'إضافة '.$entityLabel)
 @section('content')
 <div class="row justify-content-center"><div class="col-xl-9"><div class="card"><div class="card-header"><h2 class="card-title mb-0">بيانات السجل</h2></div><div class="card-body"><form method="POST" action="{{ $record ? route("admin.master-data.$entity.update",['record'=>$record->id]) : route("admin.master-data.$entity.store") }}">@csrf @if($record) @method('PUT') @endif

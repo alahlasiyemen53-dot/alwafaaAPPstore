@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'إدارة الحسابات البنكية | لمّة')
+@section('title', 'إدارة الحسابات البنكية | الوفاء استور')
 @section('page-title', 'الحسابات البنكية')
 
 @section('content')

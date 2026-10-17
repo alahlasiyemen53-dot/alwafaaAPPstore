@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'إنشاء قيد يومي جديد | لمّة')
+@section('title', 'إنشاء قيد يومي جديد | الوفاء استور')
 @section('page-title', 'إنشاء قيد محاسبي يدوي')
 
 @section('content')

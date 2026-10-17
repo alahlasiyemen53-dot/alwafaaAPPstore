@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', ($attribute ? 'تعديل خاصية: ' . $attribute->name_ar : 'إضافة خاصية جديدة') . ' | لمّة')
+@section('title', ($attribute ? 'تعديل خاصية: ' . $attribute->name_ar : 'إضافة خاصية جديدة') . ' | الوفاء استور')
 @section('page-title', $attribute ? 'تعديل خاصية' : 'إضافة خاصية')
 @section('content')
 <div class="page-heading">

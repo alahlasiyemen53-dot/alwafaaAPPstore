@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'إنشاء تسوية عهدة COD جديدة | لمّة')
+@section('title', 'إنشاء تسوية عهدة COD جديدة | الوفاء استور')
 @section('page-title', 'إنشاء تسوية عهدة نقدية لمندوب')
 
 @section('content')

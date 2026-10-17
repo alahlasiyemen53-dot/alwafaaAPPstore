@@ -70,7 +70,7 @@ final class InitiateOnlinePaymentAction
             customerPhone: $phone,
             amount: $amount,
             currencyCode: $currencyCode,
-            purpose: 'دفع طلب لمّة',
+            purpose: 'دفع طلب الوفاء استور',
         ));
 
         if (! $result->success || $result->purchaseId === null) {

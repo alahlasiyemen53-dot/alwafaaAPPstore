@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'إنشاء وإرسال إشعار | لمّة')
+@section('title', 'إنشاء وإرسال إشعار | الوفاء استور')
 @section('page-title', 'إنشاء وإرسال إشعار فوري')
 
 @section('content')
@@ -220,7 +220,7 @@
                                     <span class="badge bg-light text-muted font-size-11" id="title_counter">0 / 120</span>
                                 </div>
                                 <input type="text" name="title" id="title" class="form-control" maxlength="120"
-                                       value="{{ old('title', 'عرض حصري من لمّة') }}" required placeholder="أدخل عنواناً جذاباً وموجزاً">
+                                       value="{{ old('title', 'عرض حصري من الوفاء استور') }}" required placeholder="أدخل عنواناً جذاباً وموجزاً">
                                 <small class="text-muted d-block mt-1">يُفضل ألا يتجاوز العنوان 50 حرفاً لتفادي قطعه في شريط الإشعارات على الهواتف.</small>
                             </div>
 
@@ -230,7 +230,7 @@
                                     <span class="badge bg-light text-muted font-size-11" id="body_counter">0 / 500</span>
                                 </div>
                                 <textarea name="body" id="body" rows="4" class="form-control" maxlength="500" required
-                                          placeholder="اكتب تفاصيل التنبيه أو العرض الترويجي...">{{ old('body', 'استمتع بأحدث التخفيضات والعروض المتاحة الآن في تطبيق لمّة!') }}</textarea>
+                                          placeholder="اكتب تفاصيل التنبيه أو العرض الترويجي...">{{ old('body', 'استمتع بأحدث التخفيضات والعروض المتاحة الآن في تطبيق الوفاء استور!') }}</textarea>
                                 <small class="text-muted d-block mt-1">النصوص التي تتجاوز 120 حرفاً قد تظهر مقتضبة في الإشعار قبل توسيعه من المستخدم.</small>
                             </div>
 
@@ -409,7 +409,7 @@
                                             <span class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle" style="width: 22px; height: 22px; font-size: 11px; font-weight: bold;">
                                                 ل
                                             </span>
-                                            <span class="fw-bold font-size-12 text-dark">لمّة</span>
+                                            <span class="fw-bold font-size-12 text-dark">الوفاء استور</span>
                                             <span class="text-muted font-size-10">• الآن</span>
                                         </div>
                                         <i class="ri-arrow-down-s-line text-muted font-size-14"></i>
@@ -419,10 +419,10 @@
                                     <div class="d-flex gap-2 align-items-start">
                                         <div class="flex-grow-1">
                                             <h6 id="mockup_title" class="fw-bold text-dark font-size-13 mb-1" style="word-break: break-word;">
-                                                عرض حصري من لمّة
+                                                عرض حصري من الوفاء استور
                                             </h6>
                                             <p id="mockup_body" class="text-muted font-size-12 mb-0" style="line-height: 1.35; word-break: break-word;">
-                                                استمتع بأحدث التخفيضات والعروض المتاحة الآن في تطبيق لمّة!
+                                                استمتع بأحدث التخفيضات والعروض المتاحة الآن في تطبيق الوفاء استور!
                                             </p>
                                         </div>
                                         {{-- صورة المعاينة المصغرة --}}
@@ -520,7 +520,7 @@
             </div>
             <div class="modal-body">
                 <p class="text-danger fw-bold mb-2">
-                    ⚠️ أنت على وشك إرسال إشعار فوري لجميع مستخدمي تطبيق «لمّة» المشتركين عبر موضوع Firebase!
+                    ⚠️ أنت على وشك إرسال إشعار فوري لجميع مستخدمي تطبيق «الوفاء استور» المشتركين عبر موضوع Firebase!
                 </p>
                 <p class="text-muted font-size-13 mb-3">
                     لا يمكن التراجع عن عملية البث بعد الانطلاق. يرجى مراجعة ملخص الإشعار بعناية:

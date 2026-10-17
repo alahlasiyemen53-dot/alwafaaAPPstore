@@ -15,11 +15,11 @@ return [
     'force_update' => env('APP_FORCE_UPDATE', false),
     'android_store_url' => env(
         'APP_ANDROID_STORE_URL',
-        'https://play.google.com/store/apps/details?id=com.alwafaa.lamma_app'
+        'https://play.google.com/store/apps/details?id=com.alwafaamed.storeapp'
     ),
     'ios_store_url' => env('APP_IOS_STORE_URL', ''),
     'pubspec_path' => env(
         'APP_PUBSPEC_PATH',
-        dirname(base_path()).DIRECTORY_SEPARATOR.'apk'.DIRECTORY_SEPARATOR.'pubspec.yaml'
+        dirname(base_path()).DIRECTORY_SEPARATOR.'pubspec.yaml'
     ),
 ];

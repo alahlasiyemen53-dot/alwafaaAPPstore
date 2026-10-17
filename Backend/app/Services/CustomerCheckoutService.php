@@ -583,7 +583,7 @@ final class CustomerCheckoutService
                 paymentCode: $code,
                 amount: $amount,
                 currencyCode: $currencyCode,
-                notes: 'طلب لمّة',
+                notes: 'طلب الوفاء استور',
             )
         );
 

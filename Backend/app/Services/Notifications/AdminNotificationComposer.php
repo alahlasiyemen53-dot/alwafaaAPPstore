@@ -66,7 +66,7 @@ final class AdminNotificationComposer
             throw new InvalidArgumentException('Topic broadcast requires an authenticated admin.');
         }
 
-        $topic = (string) config('services.fcm.general_topic', 'lamma_general');
+        $topic = (string) config('services.fcm.general_topic', 'storeapp_general');
         $message = $this->messageFactory->broadcast(
             $title,
             $body,

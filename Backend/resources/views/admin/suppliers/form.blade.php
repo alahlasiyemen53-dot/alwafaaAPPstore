@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', ($supplier ? 'تعديل بيانات مورد' : 'إضافة مورد جديد').' | لمّة')
+@section('title', ($supplier ? 'تعديل بيانات مورد' : 'إضافة مورد جديد').' | الوفاء استور')
 @section('page-title', $supplier ? 'تعديل مورد' : 'إضافة مورد جديد')
 
 @section('content')

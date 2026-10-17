@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'عمليات وسجل الإشعارات | لمّة')
+@section('title', 'عمليات وسجل الإشعارات | الوفاء استور')
 @section('page-title', 'عمليات وسجل الإشعارات الفورية (FCM Notifications)')
 
 @section('content')

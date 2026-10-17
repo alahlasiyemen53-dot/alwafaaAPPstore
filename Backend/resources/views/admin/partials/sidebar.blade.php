@@ -18,9 +18,9 @@
 @php($isNotifications = request()->routeIs('admin.notifications.*'))
 <aside class="app-menu navbar-menu" aria-label="التنقل الرئيسي">
     <div class="navbar-brand-box">
-        <a href="{{ route('admin.dashboard') }}" class="logo logo-light" aria-label="لمّة - الرئيسية">
-            <span class="logo-sm"><span class="lamma-mark">ل</span></span>
-            <span class="logo-lg"><span class="lamma-brand"><b>لمّة</b><small>لوحة الإدارة</small></span></span>
+        <a href="{{ route('admin.dashboard') }}" class="logo logo-light" aria-label="الوفاء استور - الرئيسية">
+            <span class="logo-sm"><span class="wafaa-mark">و</span></span>
+            <span class="logo-lg"><span class="wafaa-brand"><b>الوفاء استور</b><small>لوحة الإدارة</small></span></span>
         </a>
     </div>
     <div id="scrollbar" data-simplebar>

@@ -16,12 +16,12 @@ final class DeepLinkService
 
     public function getBaseUrl(): string
     {
-        return rtrim((string) config('deep_link.base_url', 'https://lamma.alwafaamed.com'), '/');
+        return rtrim((string) config('deep_link.base_url', 'https://wafapp.alwafaamed.com'), '/');
     }
 
     public function getScheme(): string
     {
-        return (string) config('deep_link.scheme', 'lamma');
+        return (string) config('deep_link.scheme', 'storeapp');
     }
 
     public function productUrl(Product|int|string $product): string
@@ -45,7 +45,7 @@ final class DeepLinkService
 
     public function productIntentUrl(int|string $productId): string
     {
-        $package = (string) config('deep_link.android.package_name', 'com.alwafaa.lamma_app');
+        $package = (string) config('deep_link.android.package_name', 'com.alwafaamed.storeapp');
         $scheme = $this->getScheme();
 
         return "intent://product/{$productId}#Intent;scheme={$scheme};package={$package};end";
@@ -58,7 +58,7 @@ final class DeepLinkService
 
     public function offerIntentUrl(int|string $offerId): string
     {
-        $package = (string) config('deep_link.android.package_name', 'com.alwafaa.lamma_app');
+        $package = (string) config('deep_link.android.package_name', 'com.alwafaamed.storeapp');
         $scheme = $this->getScheme();
 
         return "intent://offer/{$offerId}#Intent;scheme={$scheme};package={$package};end";
@@ -78,7 +78,7 @@ final class DeepLinkService
 
     public function collectionIntentUrl(int|string $collectionId): string
     {
-        $package = (string) config('deep_link.android.package_name', 'com.alwafaa.lamma_app');
+        $package = (string) config('deep_link.android.package_name', 'com.alwafaamed.storeapp');
         $scheme = $this->getScheme();
 
         return "intent://collection/{$collectionId}#Intent;scheme={$scheme};package={$package};end";
@@ -95,14 +95,14 @@ final class DeepLinkService
         ];
 
         $android = $release['android_store_url']
-            ?: (string) config('deep_link.android.store_url', 'https://play.google.com/store/apps/details?id=com.alwafaa.lamma_app');
+            ?: (string) config('deep_link.android.store_url', 'https://play.google.com/store/apps/details?id=com.alwafaamed.storeapp');
 
         $ios = $release['ios_store_url']
             ?: (string) config('deep_link.ios.store_url', '');
 
         // Fallback placeholder if iOS store URL is not yet configured on server
         if (empty($ios)) {
-            $bundleId = (string) config('deep_link.ios.bundle_id', 'com.alwafaa.lammaapp');
+            $bundleId = (string) config('deep_link.ios.bundle_id', 'com.alwafaamed.storeapp');
             $ios = 'https://apps.apple.com/app/id-pending?bundle='.$bundleId;
         }
 
@@ -119,7 +119,7 @@ final class DeepLinkService
      */
     public function getAssetLinksPayload(): array
     {
-        $package = (string) config('deep_link.android.package_name', 'com.alwafaa.lamma_app');
+        $package = (string) config('deep_link.android.package_name', 'com.alwafaamed.storeapp');
         /** @var array<int, string> $fingerprints */
         $fingerprints = (array) config('deep_link.android.sha256_cert_fingerprints', []);
 
@@ -143,7 +143,7 @@ final class DeepLinkService
     public function getAppleAppSiteAssociationPayload(): array
     {
         $teamId = (string) config('deep_link.ios.team_id', '');
-        $bundleId = (string) config('deep_link.ios.bundle_id', 'com.alwafaa.lammaapp');
+        $bundleId = (string) config('deep_link.ios.bundle_id', 'com.alwafaamed.storeapp');
         $appId = ! empty($teamId) ? "{$teamId}.{$bundleId}" : $bundleId;
 
         return [

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', ($banner ? 'تعديل بنر' : 'إضافة بنر جديد').' | لمّة')
+@section('title', ($banner ? 'تعديل بنر' : 'إضافة بنر جديد').' | الوفاء استور')
 @section('page-title', $banner ? 'تعديل بنر' : 'إضافة بنر جديد')
 
 @section('content')

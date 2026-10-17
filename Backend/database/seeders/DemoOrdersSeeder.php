@@ -61,8 +61,8 @@ final class DemoOrdersSeeder extends Seeder
             );
 
         $brand = Brand::query()->firstOrCreate(
-            ['slug' => 'demo-lamma'],
-            ['name_ar' => 'لمّة', 'name_en' => 'Lamma', 'is_active' => true, 'sort_order' => 1]
+            ['slug' => 'demo-wafaa'],
+            ['name_ar' => 'الوفاء استور', 'name_en' => "AL-Wafa'a Store", 'is_active' => true, 'sort_order' => 1]
         );
 
         $category = Category::query()->firstOrCreate(
@@ -172,7 +172,7 @@ final class DemoOrdersSeeder extends Seeder
     private function seedCatalog(int $brandId, int $categoryId, int $currencyId, int $warehouseId): array
     {
         $catalog = [
-            'perfume' => ['name_ar' => 'عطر لمّة الذهبي', 'name_en' => 'Lamma Golden Perfume', 'sku' => 'DEMO-PERFUME-01', 'price' => 18500, 'qty' => 80],
+            'perfume' => ['name_ar' => 'عطر الوفاء استور الذهبي', 'name_en' => "AL-Wafa'a Store Golden Perfume", 'sku' => 'DEMO-PERFUME-01', 'price' => 18500, 'qty' => 80],
             'watch' => ['name_ar' => 'ساعة يد أنيقة', 'name_en' => 'Elegant Wrist Watch', 'sku' => 'DEMO-WATCH-01', 'price' => 32000, 'qty' => 40],
             'earbuds' => ['name_ar' => 'سماعات لاسلكية', 'name_en' => 'Wireless Earbuds', 'sku' => 'DEMO-EARBUD-01', 'price' => 12500, 'qty' => 100],
             'candle' => ['name_ar' => 'شمعة معطرة فاخرة', 'name_en' => 'Luxury Scented Candle', 'sku' => 'DEMO-CANDLE-01', 'price' => 4500, 'qty' => 120],

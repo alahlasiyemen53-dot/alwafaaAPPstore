@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'أسعار الصرف | لمّة')
+@section('title', 'أسعار الصرف | الوفاء استور')
 @section('page-title', 'أسعار الصرف')
 @section('content')
 @php($editingRate = $editingRate ?? null)

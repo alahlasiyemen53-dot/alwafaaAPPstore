@@ -34,7 +34,7 @@ final class BroadcastTopicNotificationJob implements ShouldQueue
             return;
         }
 
-        $topic = (string) config('services.fcm.general_topic', 'lamma_general');
+        $topic = (string) config('services.fcm.general_topic', 'storeapp_general');
         $payload = is_array($notification->payload) ? $notification->payload : [];
 
         $message = new PushNotificationMessageData(

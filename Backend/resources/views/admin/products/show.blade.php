@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', $product->name_ar.' | لمّة')
+@section('title', $product->name_ar.' | الوفاء استور')
 @section('page-title', 'تفاصيل المنتج')
 @section('content')
 <div class="page-heading">

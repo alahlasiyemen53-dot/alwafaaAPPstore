@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'منتجات المجموعة | لمّة')
+@section('title', 'منتجات المجموعة | الوفاء استور')
 @section('page-title', 'منتجات: '.$collection->name_ar)
 
 @section('content')

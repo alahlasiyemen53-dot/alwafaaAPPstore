@@ -153,7 +153,7 @@ final class CustomerHomeQuery
             ['type' => HomeSectionType::Brands->value, 'title_ar' => 'العلامات التجارية', 'title_en' => 'Brands', 'configuration' => []],
             ['type' => HomeSectionType::BestSellers->value, 'title_ar' => 'الأكثر مبيعاً', 'title_en' => 'Best Sellers', 'configuration' => []],
             ['type' => HomeSectionType::NewProducts->value, 'title_ar' => 'وصل حديثاً', 'title_en' => 'New Arrivals', 'configuration' => []],
-            ['type' => HomeSectionType::ExclusiveProducts->value, 'title_ar' => 'حصريات لمّة', 'title_en' => 'Exclusive', 'configuration' => []],
+            ['type' => HomeSectionType::ExclusiveProducts->value, 'title_ar' => 'حصريات الوفاء استور', 'title_en' => 'Exclusive', 'configuration' => []],
             ['type' => HomeSectionType::RecentlyViewed->value, 'title_ar' => 'شاهدتها مؤخراً', 'title_en' => 'Recently Viewed', 'configuration' => []],
         ];
     }

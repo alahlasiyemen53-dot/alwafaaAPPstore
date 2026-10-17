@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'إدارة الصناديق النقدية | لمّة')
+@section('title', 'إدارة الصناديق النقدية | الوفاء استور')
 @section('page-title', 'الصناديق النقدية')
 
 @section('content')

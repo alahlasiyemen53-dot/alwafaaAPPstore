@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'مؤشرات السلامة المالية | لمّة')
+@section('title', 'مؤشرات السلامة المالية | الوفاء استور')
 @section('page-title', 'مؤشرات السلامة المالية')
 
 @section('content')

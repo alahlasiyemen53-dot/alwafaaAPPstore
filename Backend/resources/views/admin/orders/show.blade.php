@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'تفاصيل طلب المبيعات: ' . $order->order_number . ' | لمّة')
+@section('title', 'تفاصيل طلب المبيعات: ' . $order->order_number . ' | الوفاء استور')
 
 @section('content')
 <div class="row">

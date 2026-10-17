@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'تفاصيل تسوية COD ' . $settlement->settlement_number . ' | لمّة')
+@section('title', 'تفاصيل تسوية COD ' . $settlement->settlement_number . ' | الوفاء استور')
 @section('page-title', 'تفاصيل تسوية العهدة النقدية')
 
 @section('content')

@@ -1,0 +1,313 @@
+name: CI & CD Deploy Laravel Backend to cPanel
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Backend/**'
+      - '.github/workflows/deploy-backend.yml'
+  workflow_dispatch:
+    inputs:
+      run_seeders:
+        description: 'Run ALL database seeders (php artisan db:seed --force) — destructive; use only when intentional'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy
+  # Do not cancel mid-flight deployment to avoid half-applied changes on production
+  cancel-in-progress: false
+
+env:
+  REMOTE_APP_PATH: /home/alwafaam/wafapp.alwafaamed.com
+  BUILD_ARTIFACT_NAME: vite-production-build
+
+jobs:
+
+  # ============================================================
+  # 1. TEST & QUALITY GATE (CI)
+  # Runs in isolated GitHub runner. No changes hit server if this fails.
+  # ============================================================
+  test:
+    name: Run Automated Tests & Checks
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, intl, pdo, pdo_sqlite, pdo_mysql, gd, zip, curl
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: Backend/package-lock.json
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: composer-${{ runner.os }}-${{ hashFiles('Backend/composer.lock') }}
+          restore-keys: |
+            composer-${{ runner.os }}-
+
+      - name: Install Composer dependencies
+        run: |
+          composer install \
+            --prefer-dist \
+            --optimize-autoloader \
+            --no-progress \
+            --no-interaction
+
+      - name: Prepare testing environment
+        run: |
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+          php artisan key:generate --ansi
+          sed -i 's|^APP_URL=.*|APP_URL=http://localhost|g' .env
+          sed -i 's|^APP_ENV=.*|APP_ENV=testing|g' .env
+
+      - name: Build Vite assets
+        run: |
+          npm ci
+          npm run build
+
+      - name: Verify Vite manifest produced
+        run: |
+          set -e
+          MANIFEST="public/build/manifest.json"
+          if [ ! -f "$MANIFEST" ]; then
+            echo "::error::Vite build failed to produce $MANIFEST."
+            exit 1
+          fi
+          echo "Vite manifest verified."
+
+      - name: Upload Vite build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.BUILD_ARTIFACT_NAME }}
+          path: Backend/public/build
+          retention-days: 1
+          if-no-files-found: error
+
+      - name: Run Laravel Unit & Feature Tests
+        run: php artisan test
+
+  # ============================================================
+  # 2. SECURE DEPLOY TO CPANEL (CD)
+  # Executes ONLY if 'test' passes completely.
+  # ============================================================
+  deploy:
+    name: Deploy to cPanel (SSH)
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download compiled Vite assets from CI
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.BUILD_ARTIFACT_NAME }}
+          path: Backend/public/build
+
+      - name: Verify downloaded assets
+        run: |
+          set -e
+          if [ ! -f "Backend/public/build/manifest.json" ]; then
+            echo "::error::Compiled Vite assets missing from artifact. Deployment aborted."
+            exit 1
+          fi
+
+      - name: Setup SSH agent and credentials
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.CPANEL_SSH_KEY }}
+          SSH_KEY_PASSPHRASE: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
+        run: |
+          set -euo pipefail
+          umask 077
+          mkdir -p "$HOME/.ssh"
+
+          KEY_PATH="$HOME/.ssh/cpanel_deploy_key"
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$KEY_PATH"
+          chmod 600 "$KEY_PATH"
+
+          eval "$(ssh-agent -s)"
+          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> "$GITHUB_ENV"
+          echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> "$GITHUB_ENV"
+          echo "CPANEL_KEY_PATH=$KEY_PATH" >> "$GITHUB_ENV"
+
+          # Support both passphrase-protected and passwordless keys cleanly
+          if [ -n "${SSH_KEY_PASSPHRASE:-}" ]; then
+            ASKPASS_PATH="$RUNNER_TEMP/cpanel_askpass.sh"
+            cat > "$ASKPASS_PATH" <<'ASKPASS_SCRIPT'
+          #!/bin/sh
+          printf '%s' "$SSH_KEY_PASSPHRASE"
+          ASKPASS_SCRIPT
+            chmod 700 "$ASKPASS_PATH"
+            export SSH_ASKPASS="$ASKPASS_PATH"
+            export SSH_ASKPASS_REQUIRE=force
+            setsid ssh-add "$KEY_PATH" < /dev/null
+            rm -f "$ASKPASS_PATH"
+          else
+            ssh-add "$KEY_PATH" < /dev/null
+          fi
+
+          echo "SSH agent successfully initialized."
+
+      - name: Configure SSH and Target Parameters
+        run: |
+          set -euo pipefail
+          PORT="${{ secrets.CPANEL_PORT || '22' }}"
+          USER="${{ secrets.CPANEL_USERNAME || 'alwafaam' }}"
+          RAW_HOST="${{ secrets.CPANEL_HOST }}"
+
+          if [ -z "$RAW_HOST" ]; then
+            echo "::error::CRITICAL: Secret CPANEL_HOST is not set in GitHub repository secrets."
+            exit 1
+          fi
+
+          # Strip protocols (http://, https://), trailing paths or slashes, whitespace and carriage returns
+          HOST=$(echo "$RAW_HOST" | sed -E 's|^https?://||' | sed -E 's|/.*$||' | tr -d ' \r\n\t')
+
+          # If the user supplied the unconfigured subdomain, fallback to the parent domain
+          if [ "$HOST" = "wafapp.alwafaamed.com" ]; then
+            if ! getent hosts "$HOST" >/dev/null 2>&1; then
+              echo "::warning::DNS record for '$HOST' is not created yet. Connecting to parent host 'alwafaamed.com' (65.181.111.250)..."
+              HOST="alwafaamed.com"
+            fi
+          fi
+
+          echo "Target Host: $HOST"
+          echo "Target Port: $PORT"
+          echo "Target User: $USER"
+
+          echo "SSH_PORT=$PORT" >> "$GITHUB_ENV"
+          echo "SSH_USER=$USER" >> "$GITHUB_ENV"
+          echo "SSH_HOST=$HOST" >> "$GITHUB_ENV"
+          echo "SSH_CMD=ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -p $PORT $USER@$HOST" >> "$GITHUB_ENV"
+          echo "RSYNC_SSH=ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -p $PORT" >> "$GITHUB_ENV"
+
+      - name: Server Preflight & Skeleton Preparation
+        run: |
+          set -euo pipefail
+          $SSH_CMD bash -s <<'EOF'
+          set -e
+          mkdir -p '${{ env.REMOTE_APP_PATH }}'
+          cd '${{ env.REMOTE_APP_PATH }}'
+
+          # Prepare Laravel directories with correct permissions
+          mkdir -p \
+            storage/app/public \
+            storage/app/private \
+            storage/framework/cache/data \
+            storage/framework/sessions \
+            storage/framework/testing/disks \
+            storage/framework/views \
+            storage/logs \
+            bootstrap/cache
+
+          chmod -R ug+rwx storage bootstrap/cache 2>/dev/null || true
+          echo "Server preflight passed: target path and storage directories are ready."
+          EOF
+
+      - name: Enable Maintenance Mode (if site exists)
+        run: |
+          set -euo pipefail
+          $SSH_CMD "cd '${{ env.REMOTE_APP_PATH }}' && [ -f artisan ] && php artisan down --retry=60 2>/dev/null || true"
+
+      - name: Rsync Backend Files to cPanel
+        run: |
+          set -euo pipefail
+          # Sync Backend files while strictly protecting production data & secrets
+          rsync -avz --delete \
+            --exclude='.env' \
+            --exclude='.env.*' \
+            --exclude='.htaccess' \
+            --exclude='public/.htaccess' \
+            --exclude='storage/' \
+            --exclude='bootstrap/cache/' \
+            --exclude='node_modules/' \
+            --exclude='.git/' \
+            --exclude='tests/' \
+            --exclude='phpunit.xml' \
+            --exclude='public/hot' \
+            --exclude='public/storage' \
+            -e "$RSYNC_SSH" \
+            Backend/ \
+            "${SSH_USER}@${SSH_HOST}:${{ env.REMOTE_APP_PATH }}/"
+
+      - name: Finalize Deployment on cPanel Server
+        env:
+          # Full seeders stay opt-in only via workflow_dispatch.
+          RUN_SEEDERS: ${{ inputs.run_seeders || 'false' }}
+        run: |
+          set -euo pipefail
+          $SSH_CMD bash -s <<EOF
+          set -e
+
+          cd '${{ env.REMOTE_APP_PATH }}'
+
+          # Ensure site is brought back online on exit
+          trap '[ -f artisan ] && php artisan up 2>/dev/null || true' EXIT
+
+          echo "Manual .env on cPanel is strictly preserved."
+
+          echo "Installing/updating production composer dependencies..."
+          composer install \
+            --no-dev \
+            --prefer-dist \
+            --optimize-autoloader \
+            --no-interaction
+
+          echo "Ensuring public storage symlink..."
+          if [ ! -L public/storage ] && [ ! -e public/storage ]; then
+            php artisan storage:link || true
+          fi
+
+          echo "Running database migrations..."
+          php artisan migrate --force
+
+          echo "Syncing admin roles & permissions (AuthorizationSeeder)..."
+          php artisan db:seed --class=AuthorizationSeeder --force
+
+          if [ "${RUN_SEEDERS}" = "true" ]; then
+            echo "Running ALL database seeders..."
+            php artisan db:seed --force
+          fi
+
+          echo "Optimizing framework caches (config, routes, views, events)..."
+          php artisan optimize
+
+          echo "Deployment tasks finished successfully."
+          EOF
+
+      - name: Ensure Website is Online
+        if: always()
+        run: |
+          set -euo pipefail
+          $SSH_CMD "cd '${{ env.REMOTE_APP_PATH }}' && [ -f artisan ] && php artisan up 2>/dev/null || true"
+
+      - name: Cleanup SSH Credentials
+        if: always()
+        run: |
+          ssh-add -D 2>/dev/null || true
+          rm -f "$CPANEL_KEY_PATH" 2>/dev/null || true
+          echo "SSH session cleaned up safely."

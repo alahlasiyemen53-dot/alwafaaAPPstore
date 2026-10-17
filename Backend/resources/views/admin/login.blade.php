@@ -1,10 +1,10 @@
 @extends('layouts.admin')
-@section('title', 'تسجيل الدخول | لمّة')
+@section('title', 'تسجيل الدخول | الوفاء استور')
 @section('content')
-<div class="auth-page-wrapper pt-5 auth-lamma">
+<div class="auth-page-wrapper pt-5 auth-wafaa">
     <div class="auth-one-bg-position auth-one-bg"><div class="bg-overlay"></div><div class="shape"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" aria-hidden="true"><path d="M0 36C144 54 432 123 720 124s576-67 720-84v100H0z"></path></svg></div></div>
     <main class="auth-page-content"><div class="container">
-        <div class="row"><div class="col-12"><div class="text-center mt-sm-5 mb-4"><a href="{{ route('admin.login') }}" class="auth-brand"><span class="lamma-mark">ل</span><span>لمّة</span></a><p class="mt-3 text-white-50">لوحة إدارة التجارة والجمال</p></div></div></div>
+        <div class="row"><div class="col-12"><div class="text-center mt-sm-5 mb-4"><a href="{{ route('admin.login') }}" class="auth-brand"><span class="wafaa-mark">و</span><span>الوفاء استور</span></a><p class="mt-3 text-white-50">لوحة إدارة الوفاء استور</p></div></div></div>
         <div class="row justify-content-center"><div class="col-md-8 col-lg-6 col-xl-5"><div class="card mt-4 card-bg-fill"><div class="card-body p-4">
             <div class="text-center mt-2"><h1 class="text-primary fs-22">مرحبًا بعودتك</h1><p class="text-muted">سجّل الدخول إلى مساحة الإدارة الآمنة.</p></div>
             <div class="p-2 mt-4">
@@ -17,6 +17,6 @@
             </div>
         </div></div><p class="mt-4 text-center text-muted">الدخول مخصص للمستخدمين المصرّح لهم فقط.</p></div></div>
     </div></main>
-    <footer class="footer"><div class="container"><p class="mb-0 text-center text-muted">{{ now()->year }} © لمّة.</p></div></footer>
+    <footer class="footer"><div class="container"><p class="mb-0 text-center text-muted">{{ now()->year }} © الوفاء استور.</p></div></footer>
 </div>
 @endsection

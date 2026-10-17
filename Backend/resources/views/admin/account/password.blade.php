@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'تغيير كلمة المرور | لمّة')
+@section('title', 'تغيير كلمة المرور | الوفاء استور')
 @section('page-title', 'تغيير كلمة المرور')
 @section('content')
 <div class="row justify-content-center"><div class="col-xl-7"><div class="card"><div class="card-header"><h2 class="card-title mb-0">تأمين الحساب</h2></div><div class="card-body">
