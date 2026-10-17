@@ -145,20 +145,9 @@ jobs:
           umask 077
           mkdir -p "$HOME/.ssh"
 
-          if [ -z "${SSH_PRIVATE_KEY:-}" ]; then
-            echo "::error::CRITICAL: Secret CPANEL_SSH_KEY is empty."
-            exit 1
-          fi
-
           KEY_PATH="$HOME/.ssh/cpanel_deploy_key"
-          # Normalize Windows-style newlines that break OpenSSH private keys
-          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > "$KEY_PATH"
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$KEY_PATH"
           chmod 600 "$KEY_PATH"
-
-          if ! grep -q "BEGIN .*PRIVATE KEY" "$KEY_PATH"; then
-            echo "::error::CPANEL_SSH_KEY does not look like a valid OpenSSH/PEM private key."
-            exit 1
-          fi
 
           eval "$(ssh-agent -s)"
           echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> "$GITHUB_ENV"
@@ -172,20 +161,16 @@ jobs:
           #!/bin/sh
           printf '%s' "$SSH_KEY_PASSPHRASE"
           ASKPASS_SCRIPT
-            # Heredoc body above is indented by YAML; strip leading spaces for a valid script.
-            sed -i 's/^[[:space:]]*//' "$ASKPASS_PATH"
             chmod 700 "$ASKPASS_PATH"
             export SSH_ASKPASS="$ASKPASS_PATH"
             export SSH_ASKPASS_REQUIRE=force
-            export DISPLAY="${DISPLAY:-:0}"
             setsid ssh-add "$KEY_PATH" < /dev/null
             rm -f "$ASKPASS_PATH"
           else
             ssh-add "$KEY_PATH" < /dev/null
           fi
 
-          echo "SSH agent successfully initialized. Loaded keys:"
-          ssh-add -l || true
+          echo "SSH agent successfully initialized."
 
       - name: Configure SSH and Target Parameters
         run: |
@@ -193,119 +178,37 @@ jobs:
           PORT="${{ secrets.CPANEL_PORT || '22' }}"
           USER="${{ secrets.CPANEL_USERNAME || 'alwafaam' }}"
           RAW_HOST="${{ secrets.CPANEL_HOST }}"
-          RAW_IP="${{ secrets.CPANEL_SSH_IP }}"
 
-          if [ -z "$RAW_HOST" ] && [ -z "$RAW_IP" ]; then
-            echo "::error::CRITICAL: Set CPANEL_HOST and/or CPANEL_SSH_IP in repository secrets."
+          if [ -z "$RAW_HOST" ]; then
+            echo "::error::CRITICAL: Secret CPANEL_HOST is not set in GitHub repository secrets."
             exit 1
           fi
 
-          # Strip protocols/paths/whitespace from host secret
-          HOST=$(echo "${RAW_HOST:-}" | sed -E 's|^https?://||' | sed -E 's|/.*$||' | tr -d ' \r\n\t')
-          SSH_IP=$(echo "${RAW_IP:-}" | tr -d ' \r\n\t')
+          # Strip protocols (http://, https://), trailing paths or slashes, whitespace and carriage returns
+          HOST=$(echo "$RAW_HOST" | sed -E 's|^https?://||' | sed -E 's|/.*$||' | tr -d ' \r\n\t')
 
-          # Prefer explicit SSH IP when provided (avoids CDN/DNS surprises)
-          if [ -n "$SSH_IP" ]; then
-            CONNECT_HOST="$SSH_IP"
-            echo "Using CPANEL_SSH_IP for SSH: $CONNECT_HOST"
-          else
-            # Resolve A record and connect by IPv4 address (GitHub runners + some firewalls
-            # reset connections when hostname/IPv6 path is used).
-            RESOLVED_IP=$(getent ahostsv4 "$HOST" 2>/dev/null | awk '{print $1; exit}' || true)
-            if [ -z "$RESOLVED_IP" ]; then
-              RESOLVED_IP=$(dig +short A "$HOST" 2>/dev/null | grep -E '^[0-9.]+$' | head -n1 || true)
-            fi
-
-            if [ -n "$RESOLVED_IP" ]; then
-              CONNECT_HOST="$RESOLVED_IP"
-              echo "Resolved $HOST -> $CONNECT_HOST (connecting by IPv4)"
-            elif [ "$HOST" = "wafapp.alwafaamed.com" ] || [ "$HOST" = "alwafaamed.com" ]; then
-              CONNECT_HOST="65.181.111.250"
-              echo "::warning::DNS lookup failed for '$HOST'. Falling back to known server IP $CONNECT_HOST"
-            else
-              CONNECT_HOST="$HOST"
-              echo "::warning::Could not resolve IPv4 for '$HOST'. Connecting by hostname."
+          # If the user supplied the unconfigured subdomain, fallback to the parent domain
+          if [ "$HOST" = "wafapp.alwafaamed.com" ]; then
+            if ! getent hosts "$HOST" >/dev/null 2>&1; then
+              echo "::warning::DNS record for '$HOST' is not created yet. Connecting to parent host 'alwafaamed.com' (65.181.111.250)..."
+              HOST="alwafaamed.com"
             fi
           fi
 
-          echo "Target Host (logical): ${HOST:-n/a}"
-          echo "Connect Host (SSH): $CONNECT_HOST"
+          echo "Target Host: $HOST"
           echo "Target Port: $PORT"
           echo "Target User: $USER"
 
-          # Write wrapper scripts — GITHUB_ENV cannot safely carry options with spaces.
-          SSH_WRAP="$RUNNER_TEMP/cpanel_ssh.sh"
-          RSYNC_WRAP="$RUNNER_TEMP/cpanel_rsync_ssh.sh"
-          cat > "$SSH_WRAP" <<EOF
-          #!/bin/bash
-          exec ssh \\
-            -o StrictHostKeyChecking=no \\
-            -o UserKnownHostsFile=/dev/null \\
-            -o AddressFamily=inet \\
-            -o ConnectTimeout=30 \\
-            -o ConnectionAttempts=3 \\
-            -o ServerAliveInterval=15 \\
-            -o ServerAliveCountMax=3 \\
-            -o PreferredAuthentications=publickey \\
-            -o IdentitiesOnly=yes \\
-            -o LogLevel=ERROR \\
-            -p "$PORT" \\
-            "$USER@$CONNECT_HOST" "\$@"
-          EOF
-          cat > "$RSYNC_WRAP" <<EOF
-          #!/bin/bash
-          exec ssh \\
-            -o StrictHostKeyChecking=no \\
-            -o UserKnownHostsFile=/dev/null \\
-            -o AddressFamily=inet \\
-            -o ConnectTimeout=30 \\
-            -o ConnectionAttempts=3 \\
-            -o ServerAliveInterval=15 \\
-            -o ServerAliveCountMax=3 \\
-            -o PreferredAuthentications=publickey \\
-            -o IdentitiesOnly=yes \\
-            -o LogLevel=ERROR \\
-            -p "$PORT" \\
-            "\$@"
-          EOF
-          sed -i 's/^[[:space:]]*//' "$SSH_WRAP" "$RSYNC_WRAP"
-          chmod 700 "$SSH_WRAP" "$RSYNC_WRAP"
-
           echo "SSH_PORT=$PORT" >> "$GITHUB_ENV"
           echo "SSH_USER=$USER" >> "$GITHUB_ENV"
-          echo "SSH_HOST=$CONNECT_HOST" >> "$GITHUB_ENV"
-          echo "SSH_LOGICAL_HOST=${HOST:-$CONNECT_HOST}" >> "$GITHUB_ENV"
-          echo "SSH_CMD=$SSH_WRAP" >> "$GITHUB_ENV"
-          echo "RSYNC_SSH=$RSYNC_WRAP" >> "$GITHUB_ENV"
-
-      - name: Probe SSH connectivity (with retries)
-        run: |
-          set -euo pipefail
-          echo "Probing TCP ${SSH_HOST}:${SSH_PORT} ..."
-          if command -v nc >/dev/null 2>&1; then
-            nc -vz -w 10 "$SSH_HOST" "$SSH_PORT" || echo "::warning::nc probe failed (continuing to SSH retries)"
-          fi
-
-          ATTEMPTS=5
-          for i in $(seq 1 "$ATTEMPTS"); do
-            echo "SSH probe attempt $i/$ATTEMPTS ..."
-            if "$SSH_CMD" "echo SSH_OK && uname -a"; then
-              echo "SSH probe succeeded."
-              exit 0
-            fi
-            echo "::warning::SSH probe failed on attempt $i (kex/reset/auth). Waiting before retry..."
-            sleep $((i * 5))
-          done
-
-          echo "::error::SSH still failing after $ATTEMPTS attempts (kex_exchange_identification / connection reset)."
-          echo "Check cPanel/WHM firewall (CSF), SSH port, and that GitHub Actions IPs are not blocked."
-          echo "Optional: add repository secret CPANEL_SSH_IP=65.181.111.250"
-          exit 1
+          echo "SSH_HOST=$HOST" >> "$GITHUB_ENV"
+          echo "SSH_CMD=ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -p $PORT $USER@$HOST" >> "$GITHUB_ENV"
+          echo "RSYNC_SSH=ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -p $PORT" >> "$GITHUB_ENV"
 
       - name: Server Preflight & Skeleton Preparation
         run: |
           set -euo pipefail
-          "$SSH_CMD" bash -s <<'EOF'
+          $SSH_CMD bash -s <<'EOF'
           set -e
           mkdir -p '${{ env.REMOTE_APP_PATH }}'
           cd '${{ env.REMOTE_APP_PATH }}'
@@ -328,7 +231,7 @@ jobs:
       - name: Enable Maintenance Mode (if site exists)
         run: |
           set -euo pipefail
-          "$SSH_CMD" "cd '${{ env.REMOTE_APP_PATH }}' && [ -f artisan ] && php artisan down --retry=60 2>/dev/null || true"
+          $SSH_CMD "cd '${{ env.REMOTE_APP_PATH }}' && [ -f artisan ] && php artisan down --retry=60 2>/dev/null || true"
 
       - name: Rsync Backend Files to cPanel
         run: |
@@ -357,7 +260,7 @@ jobs:
           RUN_SEEDERS: ${{ inputs.run_seeders || 'false' }}
         run: |
           set -euo pipefail
-          "$SSH_CMD" bash -s <<EOF
+          $SSH_CMD bash -s <<EOF
           set -e
 
           cd '${{ env.REMOTE_APP_PATH }}'
@@ -400,7 +303,7 @@ jobs:
         if: always()
         run: |
           set -euo pipefail
-          "$SSH_CMD" "cd '${{ env.REMOTE_APP_PATH }}' && [ -f artisan ] && php artisan up 2>/dev/null || true"
+          $SSH_CMD "cd '${{ env.REMOTE_APP_PATH }}' && [ -f artisan ] && php artisan up 2>/dev/null || true"
 
       - name: Cleanup SSH Credentials
         if: always()
