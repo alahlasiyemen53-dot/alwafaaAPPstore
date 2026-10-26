@@ -204,7 +204,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 12.h + MediaQuery.paddingOf(context).bottom,
               ),
               itemCount: state.items.length + (state.isLoadingMore ? 1 : 0),
-              separatorBuilder: (_, __) => SizedBox(height: 8.h),
+              separatorBuilder: (_, _) => SizedBox(height: 8.h),
               itemBuilder: (context, index) {
                 if (index >= state.items.length) {
                   return Padding(

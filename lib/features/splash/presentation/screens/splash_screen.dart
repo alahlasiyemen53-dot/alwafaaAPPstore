@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:store/core/app_update/app_update_policy.dart';
 import 'package:store/core/app_update/app_update_service.dart';
 import 'package:store/core/constants/app_colors.dart';
+import 'package:store/core/constants/app_strings.dart';
 import 'package:store/data/repositories/reference_repository.dart';
 import 'package:store/features/account/cubit/account_cubit.dart';
 import 'package:store/features/app_shell/presentation/screens/main_shell_screen.dart';
@@ -33,13 +34,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   void initState() {
     super.initState();
 
-    // Configure status bar style for immersive brand splash
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: AppColors.primaryContainer,
-        systemNavigationBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
       ),
     );
 
@@ -71,7 +71,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     _controller.forward();
 
-    // Absolute fail-safe: if _navigateToHome ever stalls, force exit to home within 3.2s
     _fallbackTimer = Timer(const Duration(milliseconds: 3200), () {
       if (mounted) {
         _goToMainShell(false);
@@ -219,13 +218,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         width: double.infinity,
         height: double.infinity,
         decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment(0.0, -0.2),
-            radius: 1.25,
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
             colors: [
-              AppColors.primaryContainer, // Deep warm wine/charcoal center
-              AppColors.primaryDarkHover, // Rich dark transition
-              AppColors.primaryDark, // Charcoal edge
+              Color(0xFFFFFFFF),
+              AppColors.primaryContainer,
+              Color(0xFFF7FAFC),
             ],
             stops: [0.0, 0.55, 1.0],
           ),
@@ -234,8 +233,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           child: Column(
             children: [
               const Spacer(flex: 2),
-
-              // Animated Logo container
               AnimatedBuilder(
                 animation: _controller,
                 builder: (context, child) {
@@ -248,65 +245,39 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   );
                 },
                 child: Center(
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      // Subtle burgundy & champagne aura glow
-                      Container(
-                        width: 220.w,
-                        height: 220.w,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.burgundy.withValues(alpha: 0.28),
-                              blurRadius: 55,
-                              spreadRadius: 8,
-                            ),
-                            BoxShadow(
-                              color: AppColors.gold.withValues(alpha: 0.15),
-                              blurRadius: 35,
-                              spreadRadius: 2,
-                            ),
-                          ],
+                  child: Container(
+                    width: 168.w,
+                    height: 168.w,
+                    padding: EdgeInsets.all(18.w),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(36.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.gold.withValues(alpha: 0.18),
+                          blurRadius: 28,
+                          offset: const Offset(0, 10),
                         ),
+                        BoxShadow(
+                          color: AppColors.burgundy.withValues(alpha: 0.08),
+                          blurRadius: 18,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                      border: Border.all(
+                        color: AppColors.surfaceMuted,
+                        width: 1,
                       ),
-
-                      // Brand Logo inside elegant champagne gold border
-                      Container(
-                        width: 170.w,
-                        height: 170.w,
-                        padding: EdgeInsets.all(4.w),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.gold.withValues(alpha: 0.65),
-                            width: 1.5,
-                          ),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              AppColors.gold.withValues(alpha: 0.35),
-                              AppColors.gold.withValues(alpha: 0.08),
-                            ],
-                          ),
-                        ),
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/images/app_icon.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
+                    child: Image.asset(
+                      'assets/images/app_icon.png',
+                      fit: BoxFit.contain,
+                      filterQuality: FilterQuality.high,
+                    ),
                   ),
                 ),
               ),
-
               SizedBox(height: 28.h),
-
-              // Brand Title & Tagline with smooth entrance
               AnimatedBuilder(
                 animation: _controller,
                 builder: (context, child) {
@@ -318,12 +289,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 child: Column(
                   children: [
                     Text(
-                      'BEAUTY & ELEGANCE',
-                      style: GoogleFonts.cinzel(
-                        fontSize: 20.sp,
+                      AppStrings.appNameArabic,
+                      style: GoogleFonts.cormorantGaramond(
+                        fontSize: 28.sp,
                         fontWeight: FontWeight.w700,
-                        letterSpacing: 4.0,
-                        color: AppColors.goldLight,
+                        letterSpacing: 0.8,
+                        color: AppColors.primaryDark,
                       ),
                     ),
                     SizedBox(height: 10.h),
@@ -331,36 +302,32 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: 32.w,
-                          height: 1,
-                          color: AppColors.gold.withValues(alpha: 0.4),
+                          width: 28.w,
+                          height: 2,
+                          color: AppColors.burgundy.withValues(alpha: 0.55),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.w),
                           child: Text(
-                            'الفخامة والأناقة في كل تفصيل',
+                            'الوفاء استور',
                             style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: 0.5,
-                              color: AppColors.goldLight.withValues(alpha: 0.85),
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.goldDark,
                             ),
                           ),
                         ),
                         Container(
-                          width: 32.w,
-                          height: 1,
-                          color: AppColors.gold.withValues(alpha: 0.4),
+                          width: 28.w,
+                          height: 2,
+                          color: AppColors.gold.withValues(alpha: 0.55),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-
               const Spacer(flex: 3),
-
-              // Subtle bottom loading pulse
               AnimatedBuilder(
                 animation: _controller,
                 builder: (context, child) {
@@ -379,17 +346,17 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                         child: CircularProgressIndicator(
                           strokeWidth: 2.0,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            AppColors.gold.withValues(alpha: 0.8),
+                            AppColors.gold.withValues(alpha: 0.9),
                           ),
                         ),
                       ),
                       SizedBox(height: 14.h),
                       Text(
-                        'عالم العطور ومستحضرات التجميل الفاخرة',
+                        'متجرك الطبي الموثوق',
                         style: TextStyle(
-                          fontSize: 10.sp,
-                          color: AppColors.gold.withValues(alpha: 0.7),
-                          letterSpacing: 0.4,
+                          fontSize: 11.sp,
+                          color: AppColors.textSecondary,
+                          letterSpacing: 0.2,
                         ),
                       ),
                     ],

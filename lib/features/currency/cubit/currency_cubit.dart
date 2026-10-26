@@ -85,9 +85,8 @@ class CurrencyCubit extends Cubit<CurrencyState> {
     isActive: false,
   );
 
-  CurrencyCubit({required ReferenceRepository referenceRepository})
-      : _referenceRepository = referenceRepository,
-        super(
+  CurrencyCubit({required this._referenceRepository})
+      : super(
           const CurrencyState(
             currencies: [],
             selectedCurrency: _unselectedCurrency,

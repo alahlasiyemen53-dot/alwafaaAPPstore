@@ -5,7 +5,7 @@ import 'package:store/data/models/support/support_chat_message_model.dart';
 import 'package:store/data/models/support/support_conversation_model.dart';
 
 class SupportChatInboxCache {
-  SupportChatInboxCache({SharedPreferences? prefs}) : _prefs = prefs;
+  SupportChatInboxCache({this._prefs});
 
   static const _key = 'support_chat_inbox_v1';
   static String _messagesKey(String conversationId) =>

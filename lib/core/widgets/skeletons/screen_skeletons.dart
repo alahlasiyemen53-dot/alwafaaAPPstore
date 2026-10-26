@@ -33,8 +33,8 @@ class HomeSkeleton extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               itemCount: 5,
-              separatorBuilder: (_, __) => SizedBox(width: 12.w),
-              itemBuilder: (_, __) => SizedBox(
+              separatorBuilder: (_, _) => SizedBox(width: 12.w),
+              itemBuilder: (_, _) => SizedBox(
                 width: 72.w,
                 child: LayoutBuilder(
                   builder: (context, constraints) {
@@ -66,8 +66,8 @@ class HomeSkeleton extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               itemCount: 5,
-              separatorBuilder: (_, __) => SizedBox(width: 12.w),
-              itemBuilder: (_, __) => SizedBox(
+              separatorBuilder: (_, _) => SizedBox(width: 12.w),
+              itemBuilder: (_, _) => SizedBox(
                 width: 72.w,
                 child: LayoutBuilder(
                   builder: (context, constraints) {
@@ -148,7 +148,7 @@ class BrandsGridSkeleton extends StatelessWidget {
                 crossAxisSpacing: 12.w,
                 childAspectRatio: 0.78,
               ),
-              itemBuilder: (_, __) => Column(
+              itemBuilder: (_, _) => Column(
                 children: [
                   Expanded(
                     child: AppSkeletonBox(
@@ -180,8 +180,8 @@ class CartListSkeleton extends StatelessWidget {
       child: ListView.separated(
         padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 24.h),
         itemCount: itemCount,
-        separatorBuilder: (_, __) => SizedBox(height: 12.h),
-        itemBuilder: (_, __) => Container(
+        separatorBuilder: (_, _) => SizedBox(height: 12.h),
+        itemBuilder: (_, _) => Container(
           padding: EdgeInsets.all(12.w),
           decoration: BoxDecoration(
             color: AppColors.surface,
@@ -288,8 +288,8 @@ class OrdersListSkeleton extends StatelessWidget {
       child: ListView.separated(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         itemCount: itemCount,
-        separatorBuilder: (_, __) => SizedBox(height: 12.h),
-        itemBuilder: (_, __) => const OrderCardSkeleton(),
+        separatorBuilder: (_, _) => SizedBox(height: 12.h),
+        itemBuilder: (_, _) => const OrderCardSkeleton(),
       ),
     );
   }
@@ -542,8 +542,8 @@ class AddressesListSkeleton extends StatelessWidget {
       child: ListView.separated(
         padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
         itemCount: itemCount,
-        separatorBuilder: (_, __) => SizedBox(height: 12.h),
-        itemBuilder: (_, __) => Container(
+        separatorBuilder: (_, _) => SizedBox(height: 12.h),
+        itemBuilder: (_, _) => Container(
           padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
             color: AppColors.surface,

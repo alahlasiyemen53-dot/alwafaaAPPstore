@@ -128,7 +128,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 14.h + MediaQuery.paddingOf(context).bottom,
               ),
               itemCount: state.orders.length + (state.isLoadingMore ? 2 : 0),
-              separatorBuilder: (_, __) => SizedBox(height: 12.h),
+              separatorBuilder: (_, _) => SizedBox(height: 12.h),
               itemBuilder: (context, index) {
                 if (index >= state.orders.length) {
                   return const AppShimmer(child: OrderCardSkeleton());

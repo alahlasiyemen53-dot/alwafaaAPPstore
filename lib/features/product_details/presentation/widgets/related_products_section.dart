@@ -88,7 +88,7 @@ class RelatedProductsSection extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     scrollDirection: Axis.horizontal,
                     itemCount: products.length,
-                    separatorBuilder: (_, __) => SizedBox(width: 14.w),
+                    separatorBuilder: (_, _) => SizedBox(width: 14.w),
                     itemBuilder: (context, index) {
                       final item = products[index];
                       return SizedBox(

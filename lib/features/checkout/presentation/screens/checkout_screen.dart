@@ -463,7 +463,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   height: 220.h,
                   child: ListView.separated(
                     itemCount: addresses.length,
-                    separatorBuilder: (_, __) =>
+                    separatorBuilder: (_, _) =>
                         Divider(color: AppColors.border, height: 1),
                     itemBuilder: (_, index) {
                       final addr = addresses[index];
@@ -789,7 +789,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               width: 32.w,
                               height: 32.w,
                               fit: BoxFit.contain,
-                              errorBuilder: (_, __, ___) => Icon(
+                              errorBuilder: (_, _, _) => Icon(
                                 Icons.account_balance_wallet_outlined,
                                 size: 22.sp,
                                 color: AppColors.primaryDark,
@@ -1034,11 +1034,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       width: 52.w,
                       height: 52.w,
                       child: imageUrl.isNotEmpty
-                          ? CachedImageWidget(
-                              imageUrl: imageUrl,
-                              width: 52.w,
-                              height: 52.w,
-                              fit: BoxFit.cover,
+                          ? ColoredBox(
+                              color: AppColors.surfaceSoft,
+                              child: CachedImageWidget(
+                                imageUrl: imageUrl,
+                                width: 52.w,
+                                height: 52.w,
+                                fit: BoxFit.contain,
+                              ),
                             )
                           : ColoredBox(
                               color: AppColors.surfaceSoft,

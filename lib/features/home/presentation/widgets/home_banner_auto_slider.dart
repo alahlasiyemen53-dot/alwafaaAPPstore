@@ -266,8 +266,8 @@ class _BannerPageIndicator extends StatelessWidget {
             height: 6.h,
             decoration: BoxDecoration(
               color: active
-                  ? AppColors.goldDark
-                  : AppColors.gold.withValues(alpha: 0.35),
+                  ? AppColors.burgundy
+                  : AppColors.gold.withValues(alpha: 0.28),
               borderRadius: BorderRadius.circular(8.r),
             ),
           );

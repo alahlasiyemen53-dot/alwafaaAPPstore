@@ -557,7 +557,7 @@ class _CountryPickerSheetState extends State<_CountryPickerSheet> {
                         ),
                         shrinkWrap: true,
                         itemCount: filtered.length,
-                        separatorBuilder: (_, __) => SizedBox(height: 10.h),
+                        separatorBuilder: (_, _) => SizedBox(height: 10.h),
                         itemBuilder: (context, index) {
                           final country = filtered[index];
                           final isSelected = country.id == widget.selectedId;

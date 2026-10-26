@@ -7,6 +7,7 @@ import 'package:store/core/constants/app_strings.dart';
 import 'package:store/core/theme/app_typography.dart';
 import 'package:store/core/utils/extensions.dart';
 import 'package:store/core/widgets/cached_image_widget.dart';
+import 'package:store/core/widgets/cart_motion.dart';
 import 'package:store/core/widgets/luxury_badge.dart';
 import 'package:store/core/widgets/luxury_button.dart';
 import 'package:store/core/widgets/rating_stars.dart';
@@ -511,7 +512,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ],
           ),
           actions: [
-            IconButton(
+            Builder(
+              builder: (buttonContext) => IconButton(
               icon: Icon(
                 isWishlisted
                     ? Icons.favorite_rounded
@@ -521,9 +523,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     : AppColors.primaryDark,
               ),
               onPressed: () async {
-                context.read<WishlistCubit>().toggleWishlist(_effectiveProduct.id,
-                    guestProduct: _effectiveProduct);
+                final origin = CartMotion.originOf(buttonContext);
+                final cubit = context.read<WishlistCubit>();
+                final wasFavorite =
+                    cubit.state.contains(_effectiveProduct.id);
+                await cubit.toggleWishlist(
+                  _effectiveProduct.id,
+                  guestProduct: _effectiveProduct,
+                );
+                if (!context.mounted || wasFavorite) return;
+                if (!cubit.state.contains(_effectiveProduct.id)) return;
+                WishlistMotion.fly(
+                  context: context,
+                  origin: origin,
+                  imageUrl: _effectiveProduct.image,
+                );
               },
+              ),
             ),
             IconButton(
               icon: const Icon(Icons.share_outlined),
@@ -1059,7 +1075,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
                     // Add to Cart Button
                     Expanded(
-                      child: LuxuryButton(
+                      child: Builder(
+                        builder: (buttonContext) => LuxuryButton(
                         text: isAvailable
                             ? AppStrings.addToCart
                             : 'نفد من المخزون',
@@ -1073,6 +1090,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         onPressed: isAvailable
                             ? () async {
                                 if (!context.mounted) return;
+                                final origin = CartMotion.originOf(buttonContext);
 
                                 final variantsCount =
                                     _detail?.variants.length ?? 0;
@@ -1095,14 +1113,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   return;
                                 }
 
+                                final image = _displayGalleryImages.isNotEmpty
+                                    ? _displayGalleryImages.first
+                                    : _effectiveProduct.image;
                                 final resolvedProduct = _effectiveProduct.copyWith(
                                   name: _detail?.displayName.trim().isNotEmpty == true
                                       ? _detail!.displayName
                                       : _effectiveProduct.name,
                                   brand: _detail?.brand?.displayName ?? _effectiveProduct.brand,
-                                  image: _displayGalleryImages.isNotEmpty
-                                      ? _displayGalleryImages.first
-                                      : _effectiveProduct.image,
+                                  image: image,
                                   images: _displayGalleryImages.isNotEmpty
                                       ? _displayGalleryImages
                                       : _effectiveProduct.images,
@@ -1121,6 +1140,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         );
                                 if (!context.mounted) return;
                                 if (success) {
+                                  CartMotion.fly(
+                                    context: context,
+                                    origin: origin,
+                                    imageUrl: image,
+                                  );
                                   context.showAppSnackBar(
                                     'تمت إضافة ${_detail?.displayName ?? _effectiveProduct.name} إلى حقيبة التسوق',
                                     type: AppSnackBarType.success,
@@ -1138,6 +1162,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 }
                               }
                             : null,
+                        ),
                       ),
                     ),
                     SizedBox(width: 8.w),
@@ -1150,6 +1175,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(14.r),
                             onTap: () {
+                              CartMotion.pulse(haptic: false);
                               context
                                   .read<AppShellCubit>()
                                   .closeProductDetails();
@@ -1159,21 +1185,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               width: 48.w,
                               height: 48.h,
                               child: Center(
-                                child: Badge(
-                                  isLabelVisible: count > 0,
-                                  backgroundColor: AppColors.gold,
-                                  label: Text(
-                                    count > 99 ? '99+' : '$count',
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.primaryDark,
+                                child: CartBounce(
+                                  child: Badge(
+                                    isLabelVisible: count > 0,
+                                    backgroundColor: AppColors.gold,
+                                    label: Text(
+                                      count > 99 ? '99+' : '$count',
+                                      style: TextStyle(
+                                        fontSize: 9.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.primaryDark,
+                                      ),
                                     ),
-                                  ),
-                                  child: Icon(
-                                    Icons.shopping_bag_outlined,
-                                    color: AppColors.primaryDark,
-                                    size: 22.w,
+                                    child: Icon(
+                                      Icons.shopping_bag_outlined,
+                                      color: AppColors.primaryDark,
+                                      size: 22.w,
+                                    ),
                                   ),
                                 ),
                               ),

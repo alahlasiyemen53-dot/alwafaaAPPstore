@@ -21,6 +21,7 @@ final readonly class CreateProductData
         public bool $isExclusive = false,
         public ?int $supplierId = null,
         public ?string $supplierItemNumber = null,
+        public array $variants = [],
     ) {}
 
     public static function fromValidated(array $attributes): self
@@ -44,6 +45,10 @@ final readonly class CreateProductData
             isset($attributes['supplier_item_number']) && trim((string) $attributes['supplier_item_number']) !== ''
                 ? trim((string) $attributes['supplier_item_number'])
                 : null,
+            array_values(array_filter(
+                (array) ($attributes['variants'] ?? []),
+                fn ($row) => is_array($row)
+            )),
         );
     }
 }

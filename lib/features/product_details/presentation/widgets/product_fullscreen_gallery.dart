@@ -23,11 +23,11 @@ class ProductFullscreenGallery extends StatefulWidget {
       PageRouteBuilder(
         opaque: false,
         barrierColor: Colors.black.withValues(alpha: 0.92),
-        pageBuilder: (_, __, ___) => ProductFullscreenGallery(
+        pageBuilder: (_, _, _) => ProductFullscreenGallery(
           images: images,
           initialIndex: initialIndex.clamp(0, images.length - 1),
         ),
-        transitionsBuilder: (_, animation, __, child) {
+        transitionsBuilder: (_, animation, _, child) {
           return FadeTransition(opacity: animation, child: child);
         },
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:store/core/constants/app_colors.dart';
+import 'package:store/core/constants/app_strings.dart';
 import 'package:store/core/widgets/luxury_button.dart';
 import 'package:store/features/onboarding/guest_onboarding_prefs.dart';
 
@@ -120,11 +121,11 @@ class _GuestOnboardingSheetState extends State<GuestOnboardingSheet> {
                       ),
                       SizedBox(height: 20.h),
                       Text(
-                        'BEAUTY & ELEGANCE',
-                        style: GoogleFonts.cinzel(
-                          fontSize: 11.sp,
+                        AppStrings.appNameArabic,
+                        style: GoogleFonts.cormorantGaramond(
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
-                          letterSpacing: 2,
+                          letterSpacing: 0.6,
                           color: AppColors.goldDark,
                         ),
                       ),

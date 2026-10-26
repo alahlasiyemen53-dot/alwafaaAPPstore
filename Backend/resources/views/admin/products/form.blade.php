@@ -18,7 +18,7 @@
     </div>
 </div>
 @endif
-<div class="row justify-content-center"><div class="col-xl-10"><form method="POST" action="{{ $product ? route('admin.products.update', $product) : route('admin.products.store') }}">@csrf @if($product) @method('PUT') @endif
+<div class="row justify-content-center"><div class="col-xl-10"><form method="POST" action="{{ $product ? route('admin.products.update', $product) : route('admin.products.store') }}" @unless($product) enctype="multipart/form-data" @endunless>@csrf @if($product) @method('PUT') @endif
 <div class="card"><div class="card-header"><h2 class="card-title mb-0">المعلومات الأساسية</h2></div><div class="card-body"><div class="row g-3">
     <div class="col-md-6"><label for="name_ar" class="form-label required">الاسم العربي</label><input class="form-control @error('name_ar') is-invalid @enderror" id="name_ar" name="name_ar" value="{{ old('name_ar', $product?->name_ar) }}" required>@error('name_ar')<span class="field-error">{{ $message }}</span>@enderror</div>
     <div class="col-md-6"><label for="name_en" class="form-label">الاسم الإنجليزي</label><input class="form-control @error('name_en') is-invalid @enderror" id="name_en" name="name_en" value="{{ old('name_en', $product?->name_en) }}" dir="ltr">@error('name_en')<span class="field-error">{{ $message }}</span>@enderror</div>
@@ -85,7 +85,11 @@
                     <div class="alert alert-info py-2 px-3 fs-12 mt-3 mb-0 d-flex align-items-center gap-2">
                         <i class="ri-information-line fs-16"></i>
                         <span>
-                            <strong>ملاحظة للمتغيرات:</strong> تفعيل هذا الخيار يجعل المنتج متعدد الخيارات للعميل. بعد حفظ المنتج، يمكنك الانتقال إلى صفحة تفاصيل المنتج لإضافة وتوليد المتغيرات وتخصيص أسعارها ورموز SKU وصورها بناءً على هذه الخصائص.
+                            @if($product)
+                                <strong>ملاحظة للمتغيرات:</strong> تفعيل هذا الخيار يجعل المنتج متعدد الخيارات للعميل. أضف المتغيرات وسعّرها من صفحة تفاصيل المنتج.
+                            @else
+                                <strong>ملاحظة للمتغيرات:</strong> فعّل هذا الخيار ثم عبّئ خصائص كل متغير وسعره في قسم «متغيرات المنتج والتسعير» أسفل النموذج. رمز SKU يُولَّد تلقائياً عند الحفظ.
+                            @endif
                         </span>
                     </div>
                 @else
@@ -159,6 +163,10 @@
         </div>
     </div>
 </div>
+
+@unless($product)
+    @include('admin.products.partials.create_variants')
+@endunless
 
 <div class="card"><div class="card-header"><h2 class="card-title mb-0">الوصف</h2></div><div class="card-body"><div class="row g-3"><div class="col-md-6"><label for="description_ar" class="form-label">الوصف العربي</label><textarea class="form-control @error('description_ar') is-invalid @enderror" id="description_ar" name="description_ar" rows="6">{{ old('description_ar', $product?->description_ar) }}</textarea>@error('description_ar')<span class="field-error">{{ $message }}</span>@enderror</div><div class="col-md-6"><label for="description_en" class="form-label">الوصف الإنجليزي</label><textarea class="form-control @error('description_en') is-invalid @enderror" id="description_en" name="description_en" rows="6" dir="ltr">{{ old('description_en', $product?->description_en) }}</textarea>@error('description_en')<span class="field-error">{{ $message }}</span>@enderror</div></div>
 @if($product && ((filled($product->supplier_item_number)) || $product->variants()->whereNotNull('supplier_item_number')->where('supplier_item_number', '!=', '')->exists()))

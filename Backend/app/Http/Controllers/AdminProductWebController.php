@@ -6,6 +6,8 @@ use App\Actions\ActivateProductAction;
 use App\Actions\CreateProductAction;
 use App\Actions\DeactivateProductAction;
 use App\Actions\UpdateProductAction;
+use App\Actions\UploadProductMediaAction;
+use App\Actions\UploadVariantMediaAction;
 use App\Data\CreateProductData;
 use App\Data\ProductListData;
 use App\Data\UpdateProductData;
@@ -21,6 +23,7 @@ use App\Queries\GetProductRatingSummaryQuery;
 use App\Services\CatalogMediaPresenter;
 use DomainException;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\UploadedFile;
 use Illuminate\View\View;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
@@ -40,15 +43,26 @@ final class AdminProductWebController extends Controller
         return $this->form($query, $attributeQuery);
     }
 
-    public function store(StoreProductRequest $request, CreateProductAction $action): RedirectResponse
-    {
+    public function store(
+        StoreProductRequest $request,
+        CreateProductAction $action,
+        UploadProductMediaAction $productMedia,
+        UploadVariantMediaAction $variantMedia,
+    ): RedirectResponse {
         try {
             $product = $action->execute(CreateProductData::fromValidated($request->validated()));
         } catch (DomainException $e) {
             return back()->withInput()->with('error', $e->getMessage());
         }
 
-        return redirect()->route('admin.products.show', $product)->with('success', 'تم إنشاء المنتج بنجاح.');
+        $imageWarning = $this->attachCreateImages($request, $product, $productMedia, $variantMedia);
+
+        $redirect = redirect()->route('admin.products.show', $product)->with('success', 'تم إنشاء المنتج بنجاح.');
+        if ($imageWarning !== null) {
+            $redirect->with('warning', $imageWarning);
+        }
+
+        return $redirect;
     }
 
     public function show(
@@ -124,5 +138,43 @@ final class AdminProductWebController extends Controller
             'attributes' => $attributeQuery->activeAttributesWithValues(),
             'suppliers' => Supplier::query()->where('is_active', true)->orderBy('name')->get(['id', 'name', 'code']),
         ]);
+    }
+
+    private function attachCreateImages(
+        StoreProductRequest $request,
+        Product $product,
+        UploadProductMediaAction $productMedia,
+        UploadVariantMediaAction $variantMedia,
+    ): ?string {
+        $failed = false;
+
+        try {
+            $primary = $request->file('primary_image');
+            if ($primary instanceof UploadedFile) {
+                $productMedia->execute($product, $primary, true);
+            }
+        } catch (\Throwable) {
+            $failed = true;
+        }
+
+        $variantFiles = $request->file('variants');
+        if (is_array($variantFiles)) {
+            $created = $product->variants()->orderBy('id')->get()->values();
+            foreach ($created as $index => $variant) {
+                $file = $variantFiles[$index]['image'] ?? null;
+                if (! $file instanceof UploadedFile) {
+                    continue;
+                }
+                try {
+                    $variantMedia->execute($variant, $file, true);
+                } catch (\Throwable) {
+                    $failed = true;
+                }
+            }
+        }
+
+        return $failed
+            ? 'تم إنشاء المنتج، وتعذر رفع إحدى الصور. يمكنك إعادة رفعها من صفحة المنتج.'
+            : null;
     }
 }

@@ -743,11 +743,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               width: 52.w,
               height: 52.w,
               child: imageUrl.isNotEmpty
-                  ? CachedImageWidget(
-                      imageUrl: imageUrl,
-                      width: 52.w,
-                      height: 52.w,
-                      fit: BoxFit.cover,
+                  ? ColoredBox(
+                      color: AppColors.surfaceSoft,
+                      child: CachedImageWidget(
+                        imageUrl: imageUrl,
+                        width: 52.w,
+                        height: 52.w,
+                        fit: BoxFit.contain,
+                      ),
                     )
                   : ColoredBox(
                       color: AppColors.surfaceSoft,

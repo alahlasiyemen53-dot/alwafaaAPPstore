@@ -14,35 +14,21 @@ class AccountLoyaltyCard extends StatelessWidget {
     return BlocBuilder<LoyaltyCubit, LoyaltyState>(
       builder: (context, state) {
         final loyalty = state.loyalty;
-        final tier = loyalty.currentTier?.nameAr ?? 'عضو لِمّة';
+        final tier = loyalty.currentTier?.nameAr ?? 'عضو الوفاء';
         final points = loyalty.availablePoints;
         final loading = state.status == LoyaltyStatus.loading && points == 0;
 
         return Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.circular(20.r),
+            borderRadius: BorderRadius.circular(18.r),
             onTap: () => LoyaltySheet.show(context),
             child: Ink(
-              padding: EdgeInsets.all(16.w),
+              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [AppColors.primaryDark, AppColors.primaryContainer],
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                ),
-                borderRadius: BorderRadius.circular(20.r),
-                border: Border.all(
-                  color: AppColors.gold.withValues(alpha: 0.35),
-                  width: 1,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primaryDark.withValues(alpha: 0.18),
-                    blurRadius: 14,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(18.r),
+                border: Border.all(color: AppColors.border),
               ),
               child: Row(
                 children: [
@@ -50,13 +36,13 @@ class AccountLoyaltyCard extends StatelessWidget {
                     width: 44.w,
                     height: 44.w,
                     decoration: BoxDecoration(
-                      color: AppColors.gold.withValues(alpha: 0.2),
+                      color: AppColors.gold.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(14.r),
                     ),
                     child: Icon(
                       Icons.workspace_premium_rounded,
-                      color: AppColors.gold,
-                      size: 24.w,
+                      color: AppColors.goldDark,
+                      size: 22.w,
                     ),
                   ),
                   SizedBox(width: 12.w),
@@ -69,7 +55,7 @@ class AccountLoyaltyCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 11.sp,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.goldLight,
+                            color: AppColors.textMuted,
                           ),
                         ),
                         SizedBox(height: 2.h),
@@ -80,7 +66,7 @@ class AccountLoyaltyCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.textLight,
+                            color: AppColors.primaryDark,
                           ),
                         ),
                       ],
@@ -94,7 +80,7 @@ class AccountLoyaltyCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w900,
-                          color: AppColors.gold,
+                          color: AppColors.burgundy,
                           height: 1.1,
                         ),
                       ),
@@ -102,15 +88,15 @@ class AccountLoyaltyCard extends StatelessWidget {
                         'نقطة',
                         style: TextStyle(
                           fontSize: 10.sp,
-                          color: AppColors.goldLight,
+                          color: AppColors.textMuted,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(width: 4.w),
+                  SizedBox(width: 2.w),
                   Icon(
                     Icons.chevron_left_rounded,
-                    color: AppColors.goldLight,
+                    color: AppColors.textMuted,
                     size: 22.w,
                   ),
                 ],

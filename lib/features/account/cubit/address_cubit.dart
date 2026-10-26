@@ -129,10 +129,9 @@ class AddressCubit extends Cubit<AddressState> {
 
   AddressCubit({
     AccountRepository? accountRepository,
-    required ReferenceRepository referenceRepository,
+    required this._referenceRepository,
     DeviceLocationService? deviceLocationService,
   })  : _accountRepository = accountRepository ?? AccountRepositoryImpl(),
-        _referenceRepository = referenceRepository,
         _deviceLocationService =
             deviceLocationService ?? GeolocatorDeviceLocationService(),
         super(const AddressState());

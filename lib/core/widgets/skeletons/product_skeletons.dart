@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:store/core/constants/app_colors.dart';
 import 'package:store/core/widgets/skeletons/app_skeleton.dart';
 import 'package:store/features/catalog/cubit/catalog_cubit.dart';
+import 'package:store/features/catalog/presentation/widgets/product_card.dart';
 
-/// Layout-matching skeleton for [ProductCard] classic variation.
+/// Layout-matching skeleton for [ProductCard] variations.
 class ProductCardSkeleton extends StatelessWidget {
   final CardVariation variation;
+  final int staggerIndex;
 
   const ProductCardSkeleton({
     super.key,
     this.variation = CardVariation.classic,
+    this.staggerIndex = 0,
   });
 
   @override
@@ -43,6 +47,53 @@ class ProductCardSkeleton extends StatelessWidget {
                   AppSkeletonText(width: 90.w, height: 12.h),
                   SizedBox(height: 10.h),
                   AppSkeletonText(width: 70.w, height: 14.h),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (variation == CardVariation.staggered) {
+      final aspect = ProductCard.aspectRatioFor(staggerIndex);
+      return Container(
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(18.r),
+          border: Border.all(color: AppColors.border, width: 0.8),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AspectRatio(
+              aspectRatio: aspect,
+              child: const AppSkeletonBox(
+                width: double.infinity,
+                borderRadius: BorderRadius.zero,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(10.w, 8.h, 10.w, 10.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppSkeletonText(width: 48.w, height: 10.h),
+                  SizedBox(height: 6.h),
+                  AppSkeletonText(width: double.infinity, height: 12.h),
+                  SizedBox(height: 4.h),
+                  AppSkeletonText(width: 90.w, height: 12.h),
+                  SizedBox(height: 10.h),
+                  Row(
+                    children: [
+                      const Expanded(
+                        child: AppSkeletonText(width: 70, height: 14),
+                      ),
+                      AppSkeletonCircle(size: 28.w),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -115,12 +166,48 @@ class ProductGridSkeleton extends StatelessWidget {
   const ProductGridSkeleton({
     super.key,
     this.itemCount = 6,
-    this.variation = CardVariation.classic,
+    this.variation = CardVariation.staggered,
     this.shrinkWrap = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (variation == CardVariation.compact) {
+      return AppShimmer(
+        child: ListView.separated(
+          shrinkWrap: shrinkWrap,
+          physics: shrinkWrap
+              ? const NeverScrollableScrollPhysics()
+              : const AlwaysScrollableScrollPhysics(),
+          padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 16.h),
+          itemCount: itemCount,
+          separatorBuilder: (_, _) => SizedBox(height: 10.h),
+          itemBuilder: (_, _) =>
+              const ProductCardSkeleton(variation: CardVariation.compact),
+        ),
+      );
+    }
+
+    if (variation == CardVariation.staggered) {
+      return AppShimmer(
+        child: MasonryGridView.count(
+          shrinkWrap: shrinkWrap,
+          physics: shrinkWrap
+              ? const NeverScrollableScrollPhysics()
+              : const AlwaysScrollableScrollPhysics(),
+          padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 16.h),
+          crossAxisCount: 2,
+          mainAxisSpacing: 12.h,
+          crossAxisSpacing: 12.w,
+          itemCount: itemCount,
+          itemBuilder: (_, index) => ProductCardSkeleton(
+            variation: CardVariation.staggered,
+            staggerIndex: index,
+          ),
+        ),
+      );
+    }
+
     return AppShimmer(
       child: GridView.builder(
         shrinkWrap: shrinkWrap,
@@ -135,7 +222,7 @@ class ProductGridSkeleton extends StatelessWidget {
           crossAxisSpacing: 12.w,
           childAspectRatio: 0.62,
         ),
-        itemBuilder: (_, __) => ProductCardSkeleton(variation: variation),
+        itemBuilder: (_, _) => ProductCardSkeleton(variation: variation),
       ),
     );
   }
@@ -163,8 +250,8 @@ class HorizontalProductRailSkeleton extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         itemCount: itemCount,
-        separatorBuilder: (_, __) => SizedBox(width: 12.w),
-        itemBuilder: (_, __) => SizedBox(
+        separatorBuilder: (_, _) => SizedBox(width: 12.w),
+        itemBuilder: (_, _) => SizedBox(
           width: cardWidth.w,
           child: const ProductCardSkeleton(),
         ),
@@ -180,7 +267,7 @@ class ProductPaginationSkeleton extends StatelessWidget {
 
   const ProductPaginationSkeleton({
     super.key,
-    this.variation = CardVariation.classic,
+    this.variation = CardVariation.staggered,
     this.count = 2,
   });
 
@@ -200,6 +287,23 @@ class ProductPaginationSkeleton extends StatelessWidget {
       );
     }
 
+    if (variation == CardVariation.staggered) {
+      return AppShimmer(
+        child: MasonryGridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 2,
+          mainAxisSpacing: 12.h,
+          crossAxisSpacing: 12.w,
+          itemCount: count,
+          itemBuilder: (_, index) => ProductCardSkeleton(
+            variation: CardVariation.staggered,
+            staggerIndex: index,
+          ),
+        ),
+      );
+    }
+
     return AppShimmer(
       child: GridView.builder(
         shrinkWrap: true,
@@ -211,7 +315,7 @@ class ProductPaginationSkeleton extends StatelessWidget {
           crossAxisSpacing: 12.w,
           childAspectRatio: 0.62,
         ),
-        itemBuilder: (_, __) => ProductCardSkeleton(variation: variation),
+        itemBuilder: (_, _) => ProductCardSkeleton(variation: variation),
       ),
     );
   }

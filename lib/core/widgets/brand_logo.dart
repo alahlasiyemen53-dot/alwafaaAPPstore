@@ -7,8 +7,10 @@ import '../constants/app_strings.dart';
 enum BrandLogoVariant { full, iconOnly, horizontal, badge }
 enum BrandLogoTheme { light, dark }
 
-/// BrandLogo renders the high-end Beauty & Elegance monogram ("B&e") with twin luxury ovals.
+/// BrandLogo renders the AL-Wafa'a Store mark from [assets/images/app_icon.png].
 class BrandLogo extends StatelessWidget {
+  static const String _assetPath = 'assets/images/app_icon.png';
+
   final BrandLogoVariant variant;
   final BrandLogoTheme logoTheme;
   final double? size;
@@ -26,21 +28,21 @@ class BrandLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = logoTheme == BrandLogoTheme.dark;
     final primaryColor = isDark ? AppColors.textLight : AppColors.primaryDark;
-    final strokeColor = isDark ? AppColors.goldLight : AppColors.primaryDark;
-    final subtextColor = isDark ? AppColors.gold : AppColors.textSecondary;
+    final subtextColor = isDark ? AppColors.goldLight : AppColors.textSecondary;
 
-    final double baseWidth = size ?? (variant == BrandLogoVariant.badge ? 56.w : (variant == BrandLogoVariant.iconOnly ? 36.w : 48.w));
-    final double baseHeight = baseWidth * 1.22;
+    final double iconSize = size ??
+        (variant == BrandLogoVariant.badge
+            ? 56.w
+            : (variant == BrandLogoVariant.iconOnly ? 36.w : 40.w));
 
-    Widget monogramWidget = SizedBox(
-      width: baseWidth,
-      height: baseHeight,
-      child: CustomPaint(
-        painter: _MonogramPainter(
-          strokeColor: strokeColor,
-          textColor: primaryColor,
-          isDark: isDark,
-        ),
+    final Widget mark = ClipRRect(
+      borderRadius: BorderRadius.circular(iconSize * 0.18),
+      child: Image.asset(
+        _assetPath,
+        width: iconSize,
+        height: iconSize,
+        fit: BoxFit.cover,
+        filterQuality: FilterQuality.high,
       ),
     );
 
@@ -48,7 +50,7 @@ class BrandLogo extends StatelessWidget {
 
     switch (variant) {
       case BrandLogoVariant.iconOnly:
-        content = monogramWidget;
+        content = mark;
         break;
 
       case BrandLogoVariant.badge:
@@ -69,7 +71,7 @@ class BrandLogo extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              monogramWidget,
+              mark,
               SizedBox(height: 6.h),
               Text(
                 AppStrings.brandSubtitle,
@@ -77,7 +79,7 @@ class BrandLogo extends StatelessWidget {
                 style: GoogleFonts.cormorantGaramond(
                   fontSize: 8.5.sp,
                   fontWeight: FontWeight.w600,
-                  letterSpacing: 2.2,
+                  letterSpacing: 1.6,
                   color: AppColors.goldLight,
                 ),
               ),
@@ -91,7 +93,7 @@ class BrandLogo extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            monogramWidget,
+            mark,
             SizedBox(width: 8.w),
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -102,7 +104,7 @@ class BrandLogo extends StatelessWidget {
                   style: GoogleFonts.cormorantGaramond(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: 1.2,
+                    letterSpacing: 0.6,
                     color: primaryColor,
                     height: 1.0,
                   ),
@@ -113,7 +115,7 @@ class BrandLogo extends StatelessWidget {
                   style: GoogleFonts.cormorantGaramond(
                     fontSize: 8.sp,
                     fontWeight: FontWeight.w600,
-                    letterSpacing: 1.8,
+                    letterSpacing: 1.2,
                     color: subtextColor,
                   ),
                 ),
@@ -127,15 +129,15 @@ class BrandLogo extends StatelessWidget {
         content = Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            monogramWidget,
-            SizedBox(height: 4.h),
+            mark,
+            SizedBox(height: 6.h),
             Text(
               AppStrings.brandSubtitle,
               textAlign: TextAlign.center,
               style: GoogleFonts.cormorantGaramond(
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w600,
-                letterSpacing: 2.8,
+                letterSpacing: 1.6,
                 color: primaryColor,
               ),
             ),
@@ -153,96 +155,5 @@ class BrandLogo extends StatelessWidget {
     }
 
     return content;
-  }
-}
-
-class _MonogramPainter extends CustomPainter {
-  final Color strokeColor;
-  final Color textColor;
-  final bool isDark;
-
-  _MonogramPainter({
-    required this.strokeColor,
-    required this.textColor,
-    required this.isDark,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-
-    // Outer subtle oval
-    final outerPaint = Paint()
-      ..color = strokeColor.withValues(alpha: isDark ? 0.6 : 0.4)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-
-    canvas.drawOval(
-      Rect.fromCenter(center: center, width: size.width * 0.94, height: size.height * 0.94),
-      outerPaint,
-    );
-
-    // Inner refined oval
-    final innerPaint = Paint()
-      ..color = strokeColor.withValues(alpha: isDark ? 0.9 : 0.8)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 0.8;
-
-    canvas.drawOval(
-      Rect.fromCenter(center: center, width: size.width * 0.86, height: size.height * 0.86),
-      innerPaint,
-    );
-
-    // Main 'B' letter
-    final textPainterB = TextPainter(
-      text: TextSpan(
-        text: 'B',
-        style: TextStyle(
-          fontFamily: 'serif',
-          fontSize: size.height * 0.54,
-          fontWeight: FontWeight.w400,
-          color: textColor,
-        ),
-      ),
-      textDirection: TextDirection.ltr,
-    )..layout();
-
-    textPainterB.paint(
-      canvas,
-      Offset(
-        center.dx - (textPainterB.width / 2),
-        center.dy - (textPainterB.height / 2) - (size.height * 0.08),
-      ),
-    );
-
-    // Intertwined '&e'
-    final textPainterAndE = TextPainter(
-      text: TextSpan(
-        text: '&e',
-        style: TextStyle(
-          fontFamily: 'serif',
-          fontStyle: FontStyle.italic,
-          fontSize: size.height * 0.28,
-          fontWeight: FontWeight.w300,
-          color: textColor,
-        ),
-      ),
-      textDirection: TextDirection.ltr,
-    )..layout();
-
-    textPainterAndE.paint(
-      canvas,
-      Offset(
-        center.dx - (textPainterAndE.width / 2) + (size.width * 0.08),
-        center.dy + (size.height * 0.12),
-      ),
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant _MonogramPainter oldDelegate) {
-    return oldDelegate.strokeColor != strokeColor ||
-        oldDelegate.textColor != textColor ||
-        oldDelegate.isDark != isDark;
   }
 }

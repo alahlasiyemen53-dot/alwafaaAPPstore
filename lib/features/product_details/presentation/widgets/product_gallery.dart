@@ -101,7 +101,7 @@ class _ProductGalleryState extends State<ProductGallery> {
                           key: ValueKey(
                               'product-gallery-image-${images[index]}'),
                           imageUrl: images[index],
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                         ),
                       ),
                     );
@@ -142,7 +142,7 @@ class _ProductGalleryState extends State<ProductGallery> {
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               scrollDirection: Axis.horizontal,
               itemCount: images.length,
-              separatorBuilder: (_, __) => SizedBox(width: 8.w),
+              separatorBuilder: (_, _) => SizedBox(width: 8.w),
               itemBuilder: (context, index) {
                 final isSelected = _currentIndex == index;
                 return GestureDetector(
@@ -165,7 +165,13 @@ class _ProductGalleryState extends State<ProductGallery> {
                       ),
                     ),
                     clipBehavior: Clip.antiAlias,
-                    child: CachedImageWidget(imageUrl: images[index]),
+                    child: ColoredBox(
+                      color: AppColors.surfaceSoft,
+                      child: CachedImageWidget(
+                        imageUrl: images[index],
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                   ),
                 );
               },

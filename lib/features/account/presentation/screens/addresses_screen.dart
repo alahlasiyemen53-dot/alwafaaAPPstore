@@ -166,7 +166,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
             child: ListView.separated(
               padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
               itemCount: state.addresses.length,
-              separatorBuilder: (_, __) => SizedBox(height: 12.h),
+              separatorBuilder: (_, _) => SizedBox(height: 12.h),
               itemBuilder: (context, index) {
                 final address = state.addresses[index];
                 return _buildAddressCard(context, address);

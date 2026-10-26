@@ -33,7 +33,7 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ApiEndpoints.requestOtp,
       data: {
         'phone': phone,
-        if (countryId != null) 'country_id': countryId,
+        'country_id': ?countryId,
       },
     );
 
@@ -61,9 +61,9 @@ final class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'phone': phone,
         'challenge_id': challengeId,
         'code': code,
-        if (name?.trim().isNotEmpty == true) 'name': name!.trim(),
-        if (countryId != null) 'country_id': countryId,
-        if (governorateId != null) 'governorate_id': governorateId,
+        'name': ?(name?.trim().isNotEmpty == true ? name!.trim() : null),
+        'country_id': ?countryId,
+        'governorate_id': ?governorateId,
       },
     );
 

@@ -13,10 +13,9 @@ class DioClient {
     Dio? dio,
     AppConfig? config,
     TokenStore? tokenStore,
-    void Function()? onUnauthorized,
+    this._onUnauthorized,
   })  : _dio = dio ?? Dio(),
-        _tokenStore = tokenStore ?? FlutterSecureTokenStore(),
-        _onUnauthorized = onUnauthorized {
+        _tokenStore = tokenStore ?? FlutterSecureTokenStore() {
     final resolvedConfig = config ?? AppConfig.current();
     _dio.options = BaseOptions(
       baseUrl: resolvedConfig.apiBaseUrl,

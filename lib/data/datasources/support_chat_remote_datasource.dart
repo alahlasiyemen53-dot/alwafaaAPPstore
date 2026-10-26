@@ -38,7 +38,7 @@ class SupportChatRemoteDatasource {
     final response = await _dio.post(
       ApiEndpoints.supportConversations,
       data: {
-        if (relatedOrderId != null) 'related_order_id': relatedOrderId,
+        'related_order_id': ?relatedOrderId,
       },
     );
     return SupportConversationModel.fromJson(

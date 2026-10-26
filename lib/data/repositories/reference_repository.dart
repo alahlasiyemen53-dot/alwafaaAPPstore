@@ -25,10 +25,9 @@ final class ReferenceRepositoryImpl implements ReferenceRepository {
   final ReferenceLocalDataSource _localDataSource;
 
   ReferenceRepositoryImpl({
-    required ReferenceLocalDataSource localDataSource,
+    required this._localDataSource,
     ReferenceRemoteDataSource? remoteDataSource,
-  })  : _remoteDataSource = remoteDataSource ?? ReferenceRemoteDataSourceImpl(),
-        _localDataSource = localDataSource;
+  }) : _remoteDataSource = remoteDataSource ?? ReferenceRemoteDataSourceImpl();
 
   @override
   Future<List<CountryModel>> peekCachedCountries() async {

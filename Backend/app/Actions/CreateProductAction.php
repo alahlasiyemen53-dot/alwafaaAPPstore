@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Data\CreateProductData;
+use App\Data\ProductVariantData;
 use App\Enums\ProductVariantStatus;
 use App\Models\Currency;
 use App\Models\Product;
@@ -13,12 +14,15 @@ use App\Services\AuditLogger;
 use App\Services\SkuGenerator;
 use DomainException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 final class CreateProductAction
 {
     public function __construct(
         private readonly ProductRepository $products,
         private readonly AuditLogger $auditLogger,
+        private readonly CreateProductVariantAction $variantCreator,
         private readonly SkuGenerator $skuGenerator = new SkuGenerator,
     ) {}
 
@@ -31,23 +35,57 @@ final class CreateProductAction
                 }
 
                 $product = $this->products->create($productData);
+                $rows = $this->variantRows($productData);
 
-                if (! $productData->hasVariants) {
-                    $variant = ProductVariant::query()->create([
-                        'product_id' => $product->id,
-                        'sku' => $this->skuGenerator->generate(),
-                        'status' => ProductVariantStatus::Active,
-                        'is_default' => true,
-                    ]);
-
-                    $baseCurrency = Currency::query()->where('is_default', true)->first();
-                    if ($baseCurrency !== null) {
-                        VariantPrice::query()->create([
-                            'product_variant_id' => $variant->id,
-                            'currency_id' => $baseCurrency->id,
-                            'price' => '0.0000',
-                            'is_active' => true,
+                if ($rows === []) {
+                    if (! $productData->hasVariants) {
+                        $variant = ProductVariant::query()->create([
+                            'product_id' => $product->id,
+                            'sku' => $this->skuGenerator->generate(),
+                            'status' => ProductVariantStatus::Active,
+                            'is_default' => true,
                         ]);
+
+                        $baseCurrency = Currency::query()->where('is_default', true)->first();
+                        if ($baseCurrency !== null) {
+                            VariantPrice::query()->create([
+                                'product_variant_id' => $variant->id,
+                                'currency_id' => $baseCurrency->id,
+                                'price' => '0.0000',
+                                'is_active' => true,
+                            ]);
+                        }
+                    }
+                } else {
+                    $defaultAssigned = false;
+                    foreach ($rows as $index => $row) {
+                        $isDefault = (bool) ($row['is_default'] ?? false);
+                        if (! $productData->hasVariants) {
+                            $isDefault = true;
+                            $row['attribute_value_ids'] = [];
+                        } elseif ($isDefault && $defaultAssigned) {
+                            $isDefault = false;
+                        }
+                        if ($isDefault) {
+                            $defaultAssigned = true;
+                        } elseif ($index === array_key_last($rows) && ! $defaultAssigned) {
+                            $isDefault = true;
+                        }
+                        $row['is_default'] = $isDefault;
+
+                        try {
+                            $this->variantCreator->execute(ProductVariantData::fromValidated($product->id, $row));
+                        } catch (ValidationException $exception) {
+                            $mapped = [];
+                            foreach ($exception->errors() as $key => $messages) {
+                                $mapped["variants.$index.$key"] = $messages;
+                            }
+                            throw ValidationException::withMessages($mapped);
+                        } catch (ConflictHttpException $exception) {
+                            throw ValidationException::withMessages([
+                                "variants.$index.attribute_value_ids" => [$exception->getMessage()],
+                            ]);
+                        }
                     }
                 }
 
@@ -56,6 +94,19 @@ final class CreateProductAction
                 return $product->load(['brand', 'category', 'variants']);
             });
         });
+    }
+
+    /**
+     * @return list<array<string, mixed>>
+     */
+    private function variantRows(CreateProductData $productData): array
+    {
+        $rows = array_values($productData->variants);
+        if (! $productData->hasVariants) {
+            return $rows === [] ? [] : [$rows[0]];
+        }
+
+        return $rows;
     }
 
     /**

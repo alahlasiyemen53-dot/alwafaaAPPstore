@@ -45,11 +45,9 @@ class PushDeviceCubit extends Cubit<PushDeviceState> {
   StreamSubscription<String>? _tokenRefreshSubscription;
 
   PushDeviceCubit({
-    required DeviceRepository deviceRepository,
-    required PushNotificationService notificationService,
-  })  : _deviceRepository = deviceRepository,
-        _notificationService = notificationService,
-        super(const PushDeviceState()) {
+    required this._deviceRepository,
+    required this._notificationService,
+  }) : super(const PushDeviceState()) {
     _subscribeToTokenRefresh();
   }
 

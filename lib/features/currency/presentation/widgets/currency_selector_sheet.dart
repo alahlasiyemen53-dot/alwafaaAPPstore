@@ -89,7 +89,7 @@ class CurrencySelectorSheet extends StatelessWidget {
                 child: ListView.separated(
                   shrinkWrap: true,
                   itemCount: state.currencies.length,
-                  separatorBuilder: (_, __) => SizedBox(height: 8.h),
+                  separatorBuilder: (_, _) => SizedBox(height: 8.h),
                   itemBuilder: (context, index) {
                     final curr = state.currencies[index];
                     final isSelected = curr.code == state.selectedCurrency.code;

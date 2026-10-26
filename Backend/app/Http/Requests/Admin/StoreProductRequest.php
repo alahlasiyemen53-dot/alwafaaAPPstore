@@ -45,6 +45,46 @@ final class StoreProductRequest extends FormRequest
         if (! empty($merge)) {
             $this->merge($merge);
         }
+
+        $this->normalizeVariants();
+    }
+
+    private function normalizeVariants(): void
+    {
+        if (! $this->exists('variants') || ! is_array($this->input('variants'))) {
+            return;
+        }
+
+        $variants = [];
+        foreach ($this->input('variants') as $row) {
+            if (! is_array($row)) {
+                continue;
+            }
+
+            $attributeIds = array_values(array_filter(
+                (array) ($row['attribute_value_ids'] ?? []),
+                fn ($value) => $value !== null && $value !== '' && is_numeric($value) && (int) $value > 0
+            ));
+
+            $barcode = trim((string) ($row['barcode'] ?? ''));
+            $compare = trim((string) ($row['compare_at_price'] ?? ''));
+            $itemNo = trim((string) ($row['supplier_item_number'] ?? ''));
+            $supplierId = $row['supplier_id'] ?? null;
+
+            $variants[] = [
+                'price' => $row['price'] ?? null,
+                'compare_at_price' => $compare === '' ? null : $compare,
+                'barcode' => $barcode === '' ? null : $barcode,
+                'supplier_item_number' => $itemNo === '' ? null : $itemNo,
+                'fulfillment_mode' => ($row['fulfillment_mode'] ?? '') !== '' ? $row['fulfillment_mode'] : 'stocked',
+                'supplier_id' => ($supplierId === '' || $supplierId === null) ? null : (int) $supplierId,
+                'status' => ($row['status'] ?? '') !== '' ? $row['status'] : 'active',
+                'is_default' => filter_var($row['is_default'] ?? false, FILTER_VALIDATE_BOOLEAN),
+                'attribute_value_ids' => $attributeIds,
+            ];
+        }
+
+        $this->merge(['variants' => $variants]);
     }
 
     public function rules(): array
@@ -64,6 +104,19 @@ final class StoreProductRequest extends FormRequest
             'is_exclusive' => ['sometimes', 'boolean'],
             'supplier_id' => ['nullable', 'integer', Rule::exists('suppliers', 'id'), new ActiveSupplierRule],
             'supplier_item_number' => ['nullable', 'string', 'max:100'],
+            'variants' => ['nullable', 'array'],
+            'variants.*.price' => ['required', 'numeric', 'min:0'],
+            'variants.*.compare_at_price' => ['nullable', 'numeric', 'min:0'],
+            'variants.*.barcode' => ['nullable', 'string', 'max:64', 'distinct', Rule::unique('product_variants', 'barcode')],
+            'variants.*.supplier_item_number' => ['nullable', 'string', 'max:100'],
+            'variants.*.fulfillment_mode' => ['nullable', Rule::in(['stocked', 'on_demand'])],
+            'variants.*.supplier_id' => ['nullable', 'integer', Rule::exists('suppliers', 'id')],
+            'variants.*.status' => ['nullable', Rule::in(['active', 'inactive'])],
+            'variants.*.is_default' => ['nullable', 'boolean'],
+            'variants.*.attribute_value_ids' => ['nullable', 'array'],
+            'variants.*.attribute_value_ids.*' => ['integer', Rule::exists('attribute_values', 'id')],
+            'variants.*.image' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+            'primary_image' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
         ];
     }
 
@@ -84,6 +137,13 @@ final class StoreProductRequest extends FormRequest
             'supplier_item_number' => 'رقم الصنف لدى المورد',
             'description_ar' => 'الوصف العربي',
             'description_en' => 'الوصف الإنجليزي',
+            'variants.*.price' => 'سعر المتغير',
+            'variants.*.compare_at_price' => 'سعر المقارنة',
+            'variants.*.barcode' => 'الباركود',
+            'variants.*.supplier_id' => 'مورد المتغير',
+            'variants.*.attribute_value_ids.*' => 'خاصية المتغير',
+            'variants.*.image' => 'صورة المتغير',
+            'primary_image' => 'الصورة الرئيسية',
         ];
     }
 
@@ -100,6 +160,36 @@ final class StoreProductRequest extends FormRequest
             'slug.unique' => 'المعرّف النصي مستخدم بالفعل لمنتج آخر.',
             'slug.regex' => 'المعرّف النصي يجب أن يحتوي على حروف إنجليزية صغيرة وأرقام وشرطات فقط.',
             'status.required' => 'حالة المنتج مطلوبة.',
+            'variants.*.price.required' => 'سعر المتغير مطلوب.',
+            'variants.*.compare_at_price.numeric' => 'سعر المقارنة يجب أن يكون رقماً.',
+            'variants.*.barcode.unique' => 'الباركود مستخدم بالفعل.',
+            'variants.*.barcode.distinct' => 'لا يمكن تكرار الباركود بين المتغيرات.',
+            'variants.*.supplier_id.exists' => 'المورد المحدد للمتغير غير موجود.',
+            'variants.*.image.image' => 'صورة المتغير يجب أن تكون ملفاً صورياً.',
+            'variants.*.image.mimes' => 'صورة المتغير يجب أن تكون بصيغة JPG أو PNG أو WEBP.',
+            'variants.*.image.max' => 'حجم صورة المتغير يجب ألا يتجاوز 5 ميغابايت.',
+            'primary_image.image' => 'الصورة الرئيسية يجب أن تكون ملفاً صورياً.',
+            'primary_image.mimes' => 'الصورة الرئيسية يجب أن تكون بصيغة JPG أو PNG أو WEBP.',
+            'primary_image.max' => 'حجم الصورة الرئيسية يجب ألا يتجاوز 5 ميغابايت.',
         ];
+    }
+
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator): void {
+            foreach ((array) $this->input('variants', []) as $index => $row) {
+                if (! is_array($row)) {
+                    continue;
+                }
+                $price = $row['price'] ?? null;
+                $compare = $row['compare_at_price'] ?? null;
+                if ($compare !== null && $compare !== '' && is_numeric($price) && is_numeric($compare) && (float) $compare <= (float) $price) {
+                    $validator->errors()->add("variants.$index.compare_at_price", 'سعر المقارنة يجب أن يكون أعلى من السعر الأساسي.');
+                }
+                if (($row['fulfillment_mode'] ?? null) === 'on_demand' && empty($row['supplier_id'])) {
+                    $validator->errors()->add("variants.$index.supplier_id", 'يجب اختيار المورد عند تحديد التوفير عند الطلب.');
+                }
+            }
+        });
     }
 }

@@ -61,7 +61,13 @@ class CartItemTile extends StatelessWidget {
                 height: 56.w,
                 child: Opacity(
                   opacity: selected ? 1 : 0.55,
-                  child: CachedImageWidget(imageUrl: item.product.image),
+                  child: ColoredBox(
+                    color: AppColors.surfaceSoft,
+                    child: CachedImageWidget(
+                      imageUrl: item.product.image,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
               ),
             ),

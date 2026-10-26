@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:store/core/constants/app_colors.dart';
 import 'package:store/core/constants/app_strings.dart';
 import 'package:store/core/theme/app_typography.dart';
@@ -265,7 +266,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
                             scrollDirection: Axis.horizontal,
                             itemCount: historyState.items.length,
-                            separatorBuilder: (_, __) => SizedBox(width: 8.w),
+                            separatorBuilder: (_, _) => SizedBox(width: 8.w),
                             itemBuilder: (context, index) {
                               final item = historyState.items[index];
                               return ActionChip(
@@ -375,17 +376,18 @@ class _CatalogScreenState extends State<CatalogScreen> {
                     ),
                   ),
 
-                  // View Mode Buttons (Grid / Compact)
+                  // View Mode Buttons (Staggered Grid / Compact List)
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
                         onPressed: () =>
-                            cubit.setCardVariation(CardVariation.classic),
+                            cubit.setCardVariation(CardVariation.staggered),
+                        tooltip: 'شبكة متدرجة',
                         icon: Icon(
-                          Icons.grid_view_rounded,
+                          Icons.dashboard_rounded,
                           size: 18.w,
-                          color: state.cardVariation == CardVariation.classic
+                          color: state.cardVariation == CardVariation.staggered
                               ? AppColors.primaryDark
                               : AppColors.textMuted,
                         ),
@@ -397,6 +399,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
                       IconButton(
                         onPressed: () =>
                             cubit.setCardVariation(CardVariation.compact),
+                        tooltip: 'قائمة مدمجة',
                         icon: Icon(
                           Icons.view_agenda_outlined,
                           size: 18.w,
@@ -472,6 +475,10 @@ class _CatalogScreenState extends State<CatalogScreen> {
       );
     }
 
+    final bottomPad = 120.h + MediaQuery.of(context).padding.bottom;
+    final itemCount =
+        filteredProducts.length + (state.isLoadingMore ? 2 : 0);
+
     return RefreshIndicator(
       color: AppColors.gold,
       onRefresh: () async {
@@ -489,11 +496,10 @@ class _CatalogScreenState extends State<CatalogScreen> {
               padding: EdgeInsets.only(
                 left: 16.w,
                 right: 16.w,
-                bottom: 120.h + MediaQuery.of(context).padding.bottom,
+                bottom: bottomPad,
               ),
-              itemCount:
-                  filteredProducts.length + (state.isLoadingMore ? 2 : 0),
-              separatorBuilder: (_, __) => SizedBox(height: 10.h),
+              itemCount: itemCount,
+              separatorBuilder: (_, _) => SizedBox(height: 10.h),
               itemBuilder: (context, index) {
                 if (index >= filteredProducts.length) {
                   return const AppShimmer(
@@ -505,6 +511,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
 
                 final product = filteredProducts[index];
                 return ProductCard(
+                  key: ValueKey('product-compact-${product.id}'),
                   product: product,
                   variation: CardVariation.compact,
                   onTap: () {
@@ -513,31 +520,34 @@ class _CatalogScreenState extends State<CatalogScreen> {
                 );
               },
             )
-          : GridView.builder(
+          : MasonryGridView.count(
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.only(
                 left: 16.w,
                 right: 16.w,
-                bottom: 120.h + MediaQuery.of(context).padding.bottom,
+                bottom: bottomPad,
               ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.62,
-                crossAxisSpacing: 12.w,
-                mainAxisSpacing: 12.h,
-              ),
-              itemCount:
-                  filteredProducts.length + (state.isLoadingMore ? 2 : 0),
+              crossAxisCount: 2,
+              mainAxisSpacing: 12.h,
+              crossAxisSpacing: 12.w,
+              itemCount: itemCount,
               itemBuilder: (context, index) {
                 if (index >= filteredProducts.length) {
-                  return const AppShimmer(child: ProductCardSkeleton());
+                  return AppShimmer(
+                    child: ProductCardSkeleton(
+                      variation: CardVariation.staggered,
+                      staggerIndex: index,
+                    ),
+                  );
                 }
 
                 final product = filteredProducts[index];
                 return ProductCard(
+                  key: ValueKey('product-staggered-${product.id}'),
                   product: product,
-                  variation: CardVariation.classic,
+                  variation: CardVariation.staggered,
+                  staggerIndex: index,
                   onTap: () {
                     context.read<AppShellCubit>().openProductDetails(product);
                   },

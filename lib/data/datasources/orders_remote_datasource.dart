@@ -108,8 +108,8 @@ final class OrdersRemoteDataSourceImpl implements OrdersRemoteDataSource {
       ApiEndpoints.orderRatings(orderId),
       data: {
         'products': products,
-        if (driverRating != null) 'driver_rating': driverRating,
-        if (driverComment != null) 'driver_comment': driverComment,
+        'driver_rating': ?driverRating,
+        'driver_comment': ?driverComment,
       },
     );
   }

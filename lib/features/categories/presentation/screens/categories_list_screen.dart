@@ -137,21 +137,22 @@ class _CategoriesListScreenState extends State<CategoriesListScreen> {
                             onRefresh: () =>
                                 context.read<CategoriesCubit>().retry(),
                             child: GridView.builder(
+                              clipBehavior: Clip.none,
                               physics: const AlwaysScrollableScrollPhysics(
                                 parent: BouncingScrollPhysics(),
                               ),
                               padding: EdgeInsets.fromLTRB(
                                 16.w,
-                                4.h,
+                                8.h,
                                 16.w,
                                 24.h + MediaQuery.paddingOf(context).bottom,
                               ),
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 3,
-                                mainAxisSpacing: 14.h,
+                                mainAxisSpacing: 16.h,
                                 crossAxisSpacing: 12.w,
-                                childAspectRatio: 0.78,
+                                childAspectRatio: 0.74,
                               ),
                               itemCount: categories.length,
                               itemBuilder: (context, index) {

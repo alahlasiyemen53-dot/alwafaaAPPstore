@@ -8,7 +8,7 @@ import '../../../data/repositories/catalog_repository.dart';
 
 enum CatalogSortOption { featured, priceAsc, priceDesc, rating, newest }
 
-enum CardVariation { classic, editorial, compact }
+enum CardVariation { classic, staggered, compact }
 
 class CatalogState extends Equatable {
   final List<ProductModel> allProducts;
@@ -52,7 +52,7 @@ class CatalogState extends Equatable {
     this.selectedBadge,
     this.sortBy = CatalogSortOption.featured,
     this.isGridView = true,
-    this.cardVariation = CardVariation.classic,
+    this.cardVariation = CardVariation.staggered,
     this.isLoading = false,
     this.isLoadingMore = false,
     this.errorMessage,

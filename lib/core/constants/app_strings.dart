@@ -16,26 +16,27 @@ class AppStrings {
   static const String navAccount = 'حسابي';
 
   // Home Screen
-  static const String heroTag = 'مجموعة الخريف الملكية 2026';
-  static const String heroTitle = 'فن الفخامة والجمال بلمسات لا تُنسى';
+  static const String heroTag = 'متجرك الطبي الموثوق';
+  static const String heroTitle = 'صحة وعناية… بثقة الوفاء';
   static const String heroDesc =
-      'مستحضرات استثنائية وعطور نيش مختارة بعناية لتمنحك إطلالة فريدة ومتميزة في كل لحظة.';
-  static const String explorePerfumes = 'استكشف العطور';
+      'منتجات طبية ومستلزمات عناية مختارة بعناية لتصل إليك بجودة موثوقة وخدمة سريعة.';
+  static const String explorePerfumes = 'تسوق الآن';
   static const String visualSearch = 'البحث بالصورة';
   static const String browseCategories = 'تصفح حسب التصنيف';
   static const String viewAll = 'عرض الكل';
   static const String bestSellers = 'الأكثر مبيعات';
   static const String newArrivals = 'وصل حديثاً';
   static const String flashOffers = 'عروض حصرية لفترة محدودة';
-  static const String freeShippingNotice = 'شحن مجاني لكافة الطلبات فوق 300 ر.س • عينات فاخرة مجانية';
+  static const String freeShippingNotice =
+      'شحن سريع لجميع الطلبات • دعم ومتابعة مستمرة';
 
   // Trust Badges
   static const String authenticGuaranteed = 'منتجات أصلية 100%';
-  static const String authenticDesc = 'مستوردة مباشرة من دور العطور العالمية';
-  static const String fastDelivery = 'توصيل مبرد وسريع';
+  static const String authenticDesc = 'مصادر موثوقة ومعايير جودة طبية';
+  static const String fastDelivery = 'توصيل سريع وآمن';
   static const String fastDeliveryDesc = 'خلال 24-48 ساعة لجميع مدن المملكة';
-  static const String luxuryPackaging = 'تغليف هدايا ملكي';
-  static const String luxuryPackagingDesc = 'صناديق مخملية وبطاقات إهداء مذهبة';
+  static const String luxuryPackaging = 'تغليف آمن ومحكم';
+  static const String luxuryPackagingDesc = 'حماية للمنتجات حتى باب منزلك';
 
   // Catalog
   static const String searchPlaceholder = 'ابحث عن عطر، ماركة، أو مكون عطري...';

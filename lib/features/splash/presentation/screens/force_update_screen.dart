@@ -16,8 +16,8 @@ class ForceUpdateScreen extends StatefulWidget {
     super.key,
     required this.storeUrl,
     this.remoteVersion,
-    AppUpdateService? updateService,
-  }) : _updateService = updateService;
+    this._updateService,
+  });
 
   final String? storeUrl;
   final String? remoteVersion;

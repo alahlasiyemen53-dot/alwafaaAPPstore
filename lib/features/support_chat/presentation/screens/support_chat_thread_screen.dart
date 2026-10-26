@@ -349,7 +349,7 @@ class _SupportChatThreadScreenState extends State<SupportChatThreadScreen> {
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 14.w),
                     itemCount: _quickReplies.length,
-                    separatorBuilder: (_, __) => SizedBox(width: 8.w),
+                    separatorBuilder: (_, _) => SizedBox(width: 8.w),
                     itemBuilder: (context, index) {
                       final item = _quickReplies[index];
                       return ActionChip(
@@ -874,7 +874,7 @@ class _ChatImageState extends State<_ChatImage> {
             width: 220.w,
             height: 180.h,
             fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => _placeholder(),
+            errorBuilder: (_, _, _) => _placeholder(),
           ),
         ),
       );

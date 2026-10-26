@@ -54,9 +54,8 @@ final class AccountCubit extends Cubit<AccountState> {
   AccountCubit({
     AuthRepository? repository,
     AccountRepository? accountRepository,
-    CustomerSessionCleanup? sessionCleanup,
-  })  : _sessionCleanup = sessionCleanup,
-        _accountRepository = accountRepository ?? AccountRepositoryImpl(),
+    this._sessionCleanup,
+  })  : _accountRepository = accountRepository ?? AccountRepositoryImpl(),
         super(const AccountState()) {
     _repository = repository ??
         AuthRepositoryImpl(

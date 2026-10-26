@@ -27,23 +27,27 @@ class CategoryCard extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(18.r),
-          child: Column(
-            children: [
-              Expanded(child: _ImageTile(category: category, padding: 2.w)),
-              SizedBox(height: 8.h),
-              Text(
-                category.nameAr,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 11.5.sp,
-                  height: 1.25,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+          child: Padding(
+            // Keeps border/shadow inside the grid cell so edges are not clipped.
+            padding: EdgeInsets.fromLTRB(2.w, 2.h, 2.w, 0),
+            child: Column(
+              children: [
+                Expanded(child: _ImageTile(category: category)),
+                SizedBox(height: 8.h),
+                Text(
+                  category.nameAr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 11.5.sp,
+                    height: 1.25,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -52,14 +56,14 @@ class CategoryCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        width: size.w + 4.w,
+        width: size.w + 8.w,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
               width: size.w,
               height: size.w,
-              child: _ImageTile(category: category, padding: 2.w),
+              child: _ImageTile(category: category),
             ),
             SizedBox(height: 6.h),
             Text(
@@ -83,38 +87,46 @@ class CategoryCard extends StatelessWidget {
 
 class _ImageTile extends StatelessWidget {
   final CategoryModel category;
-  final double padding;
 
-  const _ImageTile({required this.category, required this.padding});
+  const _ImageTile({required this.category});
+
+  static const double _radius = 18;
+  static const double _inset = 3;
 
   @override
   Widget build(BuildContext context) {
     final hasVisual = category.image.trim().isNotEmpty;
+    final outerRadius = _radius.r;
+    final innerRadius = (_radius - _inset).r;
 
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      padding: EdgeInsets.all(padding),
+    return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surfaceMuted,
-        borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(color: AppColors.border),
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(outerRadius),
+        border: Border.all(
+          color: AppColors.border,
+          width: 1.2,
+        ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryDark.withValues(alpha: 0.05),
-            blurRadius: 12,
-            offset: const Offset(0, 3),
+            color: AppColors.primaryDark.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16.r),
-        child: hasVisual
-            ? CachedImageWidget(
-                imageUrl: category.image,
-                fit: BoxFit.cover,
-              )
-            : _CategoryInitial(name: category.nameAr),
+      child: Padding(
+        padding: EdgeInsets.all(_inset.w),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(innerRadius),
+          clipBehavior: Clip.antiAlias,
+          child: hasVisual
+              ? CachedImageWidget(
+                  imageUrl: category.image,
+                  fit: BoxFit.cover,
+                )
+              : _CategoryInitial(name: category.nameAr),
+        ),
       ),
     );
   }

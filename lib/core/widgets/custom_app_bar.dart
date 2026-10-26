@@ -138,7 +138,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         if (onSupportTap != null) ...[
                           IconButton(
                             onPressed: onSupportTap,
-                            tooltip: 'دعم لمّة',
+                            tooltip: 'دعم الوفاء',
                             icon: Stack(
                               clipBehavior: Clip.none,
                               children: [

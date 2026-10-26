@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:store/core/constants/app_colors.dart';
 import 'package:store/core/constants/app_strings.dart';
-import 'package:store/core/widgets/brand_logo.dart';
 import 'package:store/core/widgets/cached_image_widget.dart';
 import '../../../../data/models/catalog/home_api_model.dart';
 
@@ -28,13 +27,11 @@ class EditorialHeroBanner extends StatelessWidget {
     final hasBanner = banner != null;
     final hasImage = hasBanner && banner!.imageUrl.isNotEmpty;
 
-    // When a server banner is present, never fall back to hardcoded marketing copy.
     final tagText = hasBanner
         ? (banner!.badgeText.trim().isNotEmpty ? banner!.badgeText.trim() : null)
         : AppStrings.heroTag;
-    final titleText = hasBanner
-        ? banner!.displayTitle.trim()
-        : AppStrings.heroTitle;
+    final titleText =
+        hasBanner ? banner!.displayTitle.trim() : AppStrings.heroTitle;
     final descText = hasBanner
         ? (banner!.displaySubtitle.trim().isNotEmpty
             ? banner!.displaySubtitle.trim()
@@ -46,162 +43,207 @@ class EditorialHeroBanner extends StatelessWidget {
             : AppStrings.explorePerfumes)
         : AppStrings.explorePerfumes;
 
-    final card = GestureDetector(
+    return GestureDetector(
       onTap: _handlePrimaryAction,
       child: Container(
         width: expandToParent ? double.infinity : null,
         height: expandToParent ? double.infinity : null,
         margin: expandToParent
-            ? EdgeInsets.symmetric(horizontal: 16.w)
-            : EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            ? EdgeInsets.symmetric(horizontal: 12.w)
+            : EdgeInsets.fromLTRB(12.w, 4.h, 12.w, 0),
         decoration: BoxDecoration(
-          color: AppColors.primaryDark,
-          borderRadius: BorderRadius.circular(28.r),
-          border: Border.all(color: AppColors.primaryLight, width: 1.2),
+          borderRadius: BorderRadius.circular(22.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primaryDark.withValues(alpha: 0.25),
-              blurRadius: 20,
-              offset: const Offset(0, 8),
+              color: AppColors.gold.withValues(alpha: 0.18),
+              blurRadius: 24,
+              offset: const Offset(0, 10),
             ),
           ],
         ),
-        clipBehavior: Clip.antiAlias,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            if (hasImage)
-              Positioned.fill(
-                child: CachedImageWidget(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(22.r),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              if (hasImage)
+                CachedImageWidget(
                   imageUrl: banner!.imageUrl,
                   fit: BoxFit.cover,
+                )
+              else
+                const DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        AppColors.primaryDark,
+                        Color(0xFF1A3A55),
+                        AppColors.goldDark,
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            Positioned.fill(
-              child: Container(
+              // Medical slate veil — readable Arabic type over imagery
+              DecoratedBox(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
+                    begin: Alignment.centerRight,
+                    end: Alignment.centerLeft,
                     colors: [
-                      AppColors.primaryDark
-                          .withValues(alpha: hasImage ? 0.88 : 0.98),
-                      AppColors.primaryDark
-                          .withValues(alpha: hasImage ? 0.70 : 0.90),
+                      AppColors.primaryDark.withValues(alpha: hasImage ? 0.92 : 0.55),
+                      AppColors.primaryDark.withValues(alpha: hasImage ? 0.55 : 0.25),
+                      AppColors.goldDark.withValues(alpha: hasImage ? 0.35 : 0.15),
                     ],
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
+                    stops: const [0.0, 0.55, 1.0],
                   ),
                 ),
               ),
-            ),
-            if (!hasImage)
+              // Soft top highlight
               Positioned(
-                left: -24.w,
-                bottom: -24.h,
-                child: Opacity(
-                  opacity: 0.12,
-                  child: BrandLogo(
-                    variant: BrandLogoVariant.iconOnly,
-                    logoTheme: BrandLogoTheme.dark,
-                    size: 130.w,
+                top: -40.h,
+                left: -20.w,
+                child: Container(
+                  width: 160.w,
+                  height: 160.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.gold.withValues(alpha: 0.12),
                   ),
                 ),
               ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 22.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: expandToParent
-                    ? MainAxisAlignment.center
-                    : MainAxisAlignment.start,
-                children: [
-                  if (tagText != null) ...[
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(20.r),
-                        border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.15)),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.auto_awesome,
-                              size: 12.w, color: AppColors.gold),
-                          SizedBox(width: 6.w),
-                          Text(
-                            tagText,
-                            style: TextStyle(
-                              fontSize: 9.5.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.goldLight,
+              Padding(
+                padding: EdgeInsets.fromLTRB(18.w, 20.h, 18.w, 18.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.r),
+                          child: Image.asset(
+                            'assets/images/app_icon.png',
+                            width: 28.w,
+                            height: 28.w,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        SizedBox(width: 8.w),
+                        Text(
+                          AppStrings.brandShort,
+                          style: GoogleFonts.cormorantGaramond(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white.withValues(alpha: 0.92),
+                            letterSpacing: 0.4,
+                          ),
+                        ),
+                        const Spacer(),
+                        if (tagText != null)
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.burgundy.withValues(alpha: 0.92),
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Text(
+                              tagText,
+                              style: TextStyle(
+                                fontSize: 9.5.sp,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ],
-                      ),
+                      ],
                     ),
-                    SizedBox(height: 12.h),
+                    SizedBox(height: 14.h),
+                    if (titleText.isNotEmpty)
+                      Text(
+                        titleText,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.cormorantGaramond(
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                          height: 1.15,
+                        ),
+                      ),
+                    if (descText != null) ...[
+                      SizedBox(height: 8.h),
+                      Text(
+                        descText,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.white.withValues(alpha: 0.88),
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                    SizedBox(height: 16.h),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: ElevatedButton(
+                            onPressed: _handlePrimaryAction,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.burgundy,
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14.r),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16.w,
+                                vertical: 11.h,
+                              ),
+                            ),
+                            child: Text(
+                              ctaText,
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w800,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10.w),
+                        Container(
+                          width: 42.w,
+                          height: 42.w,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.16),
+                            borderRadius: BorderRadius.circular(14.r),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.22),
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.arrow_back_rounded,
+                            size: 20.w,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
-                  if (titleText.isNotEmpty)
-                    Text(
-                      titleText,
-                      maxLines: expandToParent ? 2 : null,
-                      overflow: expandToParent
-                          ? TextOverflow.ellipsis
-                          : TextOverflow.clip,
-                      style: GoogleFonts.cormorantGaramond(
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textLight,
-                        height: 1.2,
-                      ),
-                    ),
-                  if (descText != null) ...[
-                    SizedBox(height: 8.h),
-                    Text(
-                      descText,
-                      maxLines: expandToParent ? 2 : null,
-                      overflow: expandToParent
-                          ? TextOverflow.ellipsis
-                          : TextOverflow.clip,
-                      style: TextStyle(
-                        fontSize: 11.5.sp,
-                        color: AppColors.goldLight.withValues(alpha: 0.9),
-                        height: 1.4,
-                      ),
-                    ),
-                  ],
-                  SizedBox(height: 16.h),
-                  ElevatedButton.icon(
-                    onPressed: _handlePrimaryAction,
-                    icon: Icon(Icons.arrow_forward_rounded, size: 14.w),
-                    label: Text(
-                      ctaText,
-                      style: TextStyle(
-                          fontSize: 11.5.sp, fontWeight: FontWeight.bold),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.surface,
-                      foregroundColor: AppColors.primaryDark,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14.r),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 14.w, vertical: 10.h),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
-
-    return card;
   }
 
   void _handlePrimaryAction() {
